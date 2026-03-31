@@ -1,323 +1,1037 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SalesMind Pro | bluCognition — Complete Market Intel + Real-Time ROI</title>
+<title>bluCognition | Intelligence Platform</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root, [data-theme="light"] {
-  --bg: #f0f4ff; --bg2: #ffffff; --bg3: #e8eef8; --blue: #2563eb; --blue-d: #1d4ed8;
-  --cyan: #0891b2; --green: #059669; --amber: #d97706; --red: #dc2626; --purple: #7c3aed;
-  --text: #0f172a; --text2: #475569; --text3: #94a3b8;
-  --border: rgba(15,23,42,0.09); --border2: rgba(15,23,42,0.16);
-  --card: rgba(255,255,255,0.95); --hbg: rgba(240,244,255,0.92); --input: #eef2fb;
-  --radius: 12px; --radius-lg: 18px;
+/* ── DARK THEME ── */
+:root,[data-theme="dark"]{
+  --bg:#0a0f1e; --bg2:#0f172a; --bg3:#1e293b; --bg4:#263148;
+  --blue:#3b82f6; --blue-d:#1d4ed8; --blue-l:rgba(59,130,246,0.12);
+  --cyan:#06b6d4; --green:#10b981; --green-l:rgba(16,185,129,0.12);
+  --amber:#f59e0b; --amber-l:rgba(245,158,11,0.12);
+  --red:#ef4444; --red-l:rgba(239,68,68,0.12);
+  --purple:#8b5cf6; --purple-l:rgba(139,92,246,0.12);
+  --text:#f1f5f9; --text2:#94a3b8; --text3:#64748b;
+  --border:rgba(148,163,184,0.1); --border2:rgba(148,163,184,0.18);
+  --card:rgba(15,23,42,0.8); --card2:rgba(30,41,59,0.6);
+  --hbg:rgba(10,15,30,0.9); --input:#0f172a; --pill:#1e293b;
+  --chart-leg:#94a3b8; --chart-grid:rgba(255,255,255,0.04);
+  --radius:10px; --radius-lg:16px;
 }
-[data-theme="dark"] {
-  --bg: #0a0f1e; --bg2: #0f172a; --bg3: #1e293b; --blue: #3b82f6; --blue-d: #1d4ed8;
-  --cyan: #06b6d4; --green: #10b981; --amber: #f59e0b; --red: #ef4444; --purple: #8b5cf6;
-  --text: #f1f5f9; --text2: #94a3b8; --text3: #64748b;
-  --border: rgba(148,163,184,0.12); --border2: rgba(148,163,184,0.22);
-  --card: rgba(30,41,59,0.7); --hbg: rgba(10,15,30,0.88); --input: #0f172a;
+/* ── LIGHT THEME ── */
+[data-theme="light"]{
+  --bg:#f0f4ff; --bg2:#ffffff; --bg3:#e8eef8; --bg4:#dde6f5;
+  --blue:#2563eb; --blue-d:#1d4ed8; --blue-l:rgba(37,99,235,0.08);
+  --cyan:#0891b2; --green:#059669; --green-l:rgba(5,150,105,0.08);
+  --amber:#d97706; --amber-l:rgba(217,119,6,0.08);
+  --red:#dc2626; --red-l:rgba(220,38,38,0.08);
+  --purple:#7c3aed; --purple-l:rgba(124,58,237,0.08);
+  --text:#0f172a; --text2:#475569; --text3:#94a3b8;
+  --border:rgba(15,23,42,0.08); --border2:rgba(15,23,42,0.15);
+  --card:rgba(255,255,255,0.95); --card2:rgba(248,250,255,0.9);
+  --hbg:rgba(240,244,255,0.94); --input:#eef2fb; --pill:#e2e8f0;
+  --chart-leg:#475569; --chart-grid:rgba(0,0,0,0.04);
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); transition: background 0.25s; }
-.header { position: sticky; top: 0; z-index: 100; background: var(--hbg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border2); padding: 0.75rem 2rem; }
-.header-inner { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
-.logo { display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 40px; height: 40px; border-radius: 12px; background: linear-gradient(135deg, var(--blue), var(--cyan)); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: white; font-family: 'Syne', sans-serif; }
-.logo-text { font-size: 1.1rem; font-weight: 700; font-family: 'Syne', sans-serif; }
-.logo-sub { font-size: 0.65rem; color: var(--text3); }
-.theme-toggle { width: 36px; height: 36px; border-radius: 10px; background: var(--bg3); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; cursor: pointer; }
-.nav { background: var(--bg2); border-bottom: 1px solid var(--border2); padding: 0 2rem; display: flex; gap: 0; overflow-x: auto; position: sticky; top: 68px; z-index: 99; }
-.nav a { padding: 0.9rem 1.2rem; font-size: 0.8rem; font-weight: 600; color: var(--text3); text-decoration: none; border-bottom: 2px solid transparent; cursor: pointer; white-space: nowrap; }
-.nav a.active { color: var(--blue); border-bottom-color: var(--blue); }
-.section { display: none; }
-.section.active { display: block; }
-.page { max-width: 1400px; margin: 0 auto; padding: 2rem; }
-.page-title { font-family: 'Syne', sans-serif; font-size: 1.8rem; font-weight: 800; margin-bottom: 0.3rem; }
-.page-sub { font-size: 0.85rem; color: var(--text3); margin-bottom: 1.5rem; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.5rem; margin-bottom: 1rem; backdrop-filter: blur(8px); }
-.card-title { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem; }
-.grid2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-.stat { background: var(--bg3); border-radius: var(--radius); padding: 1rem; border: 1px solid var(--border2); }
-.stat-val { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; }
-.stat-lbl { font-size: 0.65rem; text-transform: uppercase; color: var(--text3); }
-.tag { display: inline-block; font-size: 0.68rem; font-weight: 600; padding: 2px 8px; border-radius: 4px; margin: 2px; background: var(--bg3); color: var(--blue); }
+*{margin:0;padding:0;box-sizing:border-box;}
+html{transition:background .22s,color .22s;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;transition:background .22s,color .22s;}
 
-/* Market Data Grid */
-.market-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
-.market-stat { background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius); padding: 1rem; position: relative; overflow: hidden; border-top: 3px solid var(--blue); }
-.market-stat.red { border-top-color: var(--red); }
-.market-stat.green { border-top-color: var(--green); }
-.market-stat.amber { border-top-color: var(--amber); }
-.market-stat.purple { border-top-color: var(--purple); }
-.market-stat-val { font-family: 'Syne', sans-serif; font-size: 1.7rem; font-weight: 800; }
-.market-stat-lbl { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; color: var(--text2); margin-top: 4px; }
-.market-stat-src { font-size: 0.6rem; color: var(--text3); margin-top: 6px; font-style: italic; }
-.bar-chart { display: flex; flex-direction: column; gap: 10px; margin: 1rem 0; }
-.bar-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-.bar-label { font-size: 0.75rem; font-weight: 600; min-width: 130px; }
-.bar-track { flex: 1; height: 24px; background: var(--bg3); border-radius: 12px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 12px; display: flex; align-items: center; padding-left: 8px; font-size: 0.7rem; font-weight: 700; color: white; }
+/* ── DEMO BANNER ── */
+.demo-banner{background:linear-gradient(90deg,var(--blue-d),var(--cyan));color:white;text-align:center;padding:.4rem 1rem;font-size:.72rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:.6rem;flex-wrap:wrap;}
+.demo-banner a{color:rgba(255,255,255,.82);text-decoration:underline;text-underline-offset:2px;}
+.demo-banner a:hover{color:white;}
+.db-dot{opacity:.45;}
 
-/* ROI Calculator */
-.roi-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 1.5rem; }
-@media (max-width: 700px) { .roi-wrap { grid-template-columns: 1fr; } }
-.roi-inputs, .roi-results { background: var(--card); border: 1px solid var(--border2); border-radius: var(--radius); padding: 1.25rem; }
-.roi-field { margin-bottom: 0.9rem; }
-.roi-field label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; color: var(--text3); display: block; margin-bottom: 4px; }
-.roi-field input, .roi-field select { width: 100%; padding: 0.55rem 0.75rem; background: var(--input); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); font-size: 0.85rem; font-family: 'DM Sans', sans-serif; }
-.roi-result-row { display: flex; justify-content: space-between; padding: 0.6rem 0; border-bottom: 1px solid var(--border); }
-.roi-result-val { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1rem; }
-.roi-result-val.green { color: var(--green); }
-.roi-result-val.blue { color: var(--blue); }
-.roi-summary { margin-top: 1rem; background: var(--bg3); padding: 0.8rem; border-radius: 8px; font-size: 0.75rem; border-left: 3px solid var(--green); }
+/* ── HEADER ── */
+.header{position:sticky;top:0;z-index:200;background:var(--hbg);backdrop-filter:blur(18px);border-bottom:1px solid var(--border2);padding:.65rem 1.75rem;transition:background .22s;}
+.header-inner{max-width:1500px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo img{height:34px;width:auto;}
+.logo-fallback{width:40px;height:40px;border-radius:9px;background:linear-gradient(135deg,var(--blue),var(--cyan));display:flex;align-items:center;justify-content:center;font-family:'Syne',sans-serif;font-weight:800;font-size:.95rem;color:white;flex-shrink:0;}
+.logo-text{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;letter-spacing:-.02em;}
+.logo-sub{font-size:.62rem;color:var(--text3);font-family:'DM Mono',monospace;margin-top:1px;}
+.header-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.theme-btn{width:34px;height:34px;border-radius:8px;background:var(--pill);border:1px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:.95rem;cursor:pointer;transition:all .15s;}
+.theme-btn:hover{background:var(--bg3);}
+.btn{display:inline-flex;align-items:center;gap:5px;padding:.38rem .85rem;border-radius:7px;font-size:.75rem;font-weight:600;cursor:pointer;border:none;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.btn-blue{background:var(--blue);color:white;}.btn-blue:hover{background:var(--blue-d);}
+.btn-ghost{background:transparent;color:var(--text2);border:1px solid var(--border2);}.btn-ghost:hover{background:var(--bg3);color:var(--text);}
+.badge{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:20px;font-family:'DM Mono',monospace;}
+.badge-free{background:var(--green-l);color:var(--green);border:1px solid rgba(16,185,129,.25);}
+.badge-pro{background:var(--amber-l);color:var(--amber);border:1px solid rgba(245,158,11,.3);}
 
-/* Company Intel Grid */
-.company-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1rem; max-height: 550px; overflow-y: auto; }
-.co-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; }
-.co-header { padding: 0.75rem 1rem; border-bottom: 1px solid var(--border); }
-.co-name { font-size: 0.9rem; font-weight: 700; }
-.co-meta { font-size: 0.65rem; color: var(--text3); }
-.contact-block { background: var(--input); border-radius: 8px; padding: 0.6rem; margin-top: 0.5rem; border-left: 3px solid var(--green); }
-.contact-name { font-size: 0.8rem; font-weight: 700; color: var(--blue); }
-.contact-title { font-size: 0.65rem; color: var(--text3); }
-.add-btn { width: 100%; margin-top: 0.5rem; padding: 0.35rem; background: rgba(16,185,129,0.13); color: var(--green); border: 1px solid rgba(16,185,129,0.25); border-radius: 6px; cursor: pointer; font-size: 0.7rem; }
-.demo-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; border-radius: var(--radius); z-index: 10; cursor: pointer; }
-.co-card { position: relative; }
-.pagination-bar { display: flex; justify-content: space-between; margin: 1rem 0; flex-wrap: wrap; }
-.page-btn { padding: 0.3rem 0.7rem; background: var(--card); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; font-size: 0.7rem; }
-.page-btn.active { background: var(--blue); color: white; }
-.pipeline-table { width: 100%; border-collapse: collapse; font-size: 0.72rem; }
-.pipeline-table th, .pipeline-table td { padding: 0.5rem; border-bottom: 1px solid var(--border); text-align: left; }
-.toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px; padding: 0.6rem 1rem; transform: translateX(160%); transition: transform 0.28s; z-index: 9999; }
-.toast.show { transform: translateX(0); }
-.filters-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem; margin-bottom: 1rem; }
-.filter-group label { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 4px; color: var(--text3); }
-.filter-group select, .filter-group input { width: 100%; padding: 0.45rem; background: var(--input); border: 1px solid var(--border2); border-radius: 8px; color: var(--text); }
-.btn-primary { background: var(--blue); color: white; border: none; padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; font-weight: 600; }
-.demo-banner { background: linear-gradient(90deg, var(--blue), var(--cyan)); color: white; text-align: center; padding: 0.4rem; font-size: 0.7rem; }
-footer { background: var(--hbg); padding: 1.5rem; text-align: center; font-size: 0.7rem; margin-top: 2rem; border-top: 1px solid var(--border); }
+/* ── APP SHELL: SIDEBAR + MAIN ── */
+.app-shell{display:flex;height:calc(100vh - 80px);overflow:hidden;}
+
+/* ── SIDEBAR NAV ── */
+.sidebar{width:210px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;padding:.75rem .5rem;transition:background .22s;}
+.nav-group{margin-bottom:1.25rem;}
+.nav-group-label{font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);padding:.25rem .75rem;margin-bottom:.25rem;}
+.nav-item{display:flex;align-items:center;gap:8px;padding:.48rem .75rem;border-radius:7px;font-size:.78rem;font-weight:500;cursor:pointer;color:var(--text2);transition:all .15s;white-space:nowrap;}
+.nav-item:hover{background:var(--bg3);color:var(--text);}
+.nav-item.active{background:var(--blue-l);color:var(--blue);font-weight:600;}
+[data-theme="light"] .nav-item.active{background:#dbeafe;color:#1e40af;}
+.nav-icon{font-size:.9rem;width:18px;text-align:center;flex-shrink:0;}
+
+/* ── CONTENT AREA ── */
+.content{flex:1;overflow-y:auto;padding:0;}
+.page{max-width:1240px;margin:0 auto;padding:1.75rem 2rem 3rem;}
+.tab-panel{display:none;}.tab-panel.active{display:block;}
+.page-title{font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;letter-spacing:-.03em;margin-bottom:.25rem;}
+.page-sub{font-size:.82rem;color:var(--text2);margin-bottom:1.75rem;line-height:1.6;}
+
+/* ── CARDS + GRIDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem 1.3rem;transition:background .22s;}
+.card-title{font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.35rem;}
+.card-body{font-size:.8rem;color:var(--text2);line-height:1.65;}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:.9rem;margin-bottom:1.25rem;}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.9rem;margin-bottom:1.25rem;}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:.75rem;margin-bottom:1.25rem;}
+.section-head{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;margin:.1rem 0 .8rem;display:flex;align-items:center;gap:.5rem;}
+.section-head .sh-line{flex:1;height:1px;background:var(--border);}
+
+/* ── STAT CARDS ── */
+.stat-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1rem 1.2rem;position:relative;overflow:hidden;transition:background .22s;}
+.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2.5px;}
+.stat-card.blue::before{background:linear-gradient(90deg,var(--blue),var(--cyan));}
+.stat-card.green::before{background:var(--green);}
+.stat-card.red::before{background:var(--red);}
+.stat-card.amber::before{background:var(--amber);}
+.stat-card.purple::before{background:var(--purple);}
+.stat-val{font-family:'Syne',sans-serif;font-size:1.65rem;font-weight:800;letter-spacing:-.03em;margin-bottom:3px;}
+.stat-val.blue{color:var(--blue);}.stat-val.green{color:var(--green);}
+.stat-val.red{color:var(--red);}.stat-val.amber{color:var(--amber);}
+.stat-val.purple{color:var(--purple);}
+.stat-lbl{font-size:.68rem;font-weight:600;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;}
+.stat-src{font-size:.62rem;color:var(--text3);margin-top:5px;font-style:italic;}
+
+/* ── TAGS ── */
+.tag{display:inline-block;font-size:.65rem;font-weight:600;padding:2px 7px;border-radius:4px;margin:2px 3px 2px 0;}
+.tag-blue{background:var(--blue-l);color:var(--blue);}
+.tag-green{background:var(--green-l);color:var(--green);}
+.tag-red{background:var(--red-l);color:var(--red);}
+.tag-amber{background:var(--amber-l);color:var(--amber);}
+.tag-purple{background:var(--purple-l);color:var(--purple);}
+
+/* ── INSIGHT BOX ── */
+.insight{background:var(--blue-l);border-left:3px solid var(--blue);padding:.75rem 1rem;border-radius:0 7px 7px 0;font-size:.79rem;color:var(--text2);line-height:1.6;margin:.75rem 0;}
+.insight strong{color:var(--blue);}
+.insight.green{background:var(--green-l);border-left-color:var(--green);}
+.insight.green strong{color:var(--green);}
+.insight.red{background:var(--red-l);border-left-color:var(--red);}
+.insight.red strong{color:var(--red);}
+.insight.amber{background:var(--amber-l);border-left-color:var(--amber);}
+.insight.amber strong{color:var(--amber);}
+
+/* ── BAR CHART ── */
+.bar-chart{display:flex;flex-direction:column;gap:8px;}
+.bar-row{display:flex;align-items:center;gap:10px;}
+.bar-lbl{font-size:.72rem;font-weight:500;min-width:160px;color:var(--text2);}
+.bar-track{flex:1;height:20px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:4px;display:flex;align-items:center;padding-left:7px;font-size:.65rem;font-weight:700;color:white;}
+.bar-num{font-size:.72rem;font-weight:700;min-width:50px;text-align:right;color:var(--text2);}
+
+/* ── TIMELINE ── */
+.timeline{display:flex;flex-direction:column;gap:0;position:relative;margin-left:14px;}
+.timeline::before{content:'';position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--border2);}
+.tl-item{display:flex;gap:14px;padding:0 0 1.4rem 22px;position:relative;}
+.tl-dot{position:absolute;left:-5px;top:4px;width:12px;height:12px;border-radius:50%;border:2px solid var(--bg2);flex-shrink:0;}
+.tl-dot.blue{background:var(--blue);}.tl-dot.green{background:var(--green);}.tl-dot.amber{background:var(--amber);}
+.tl-date{font-size:.68rem;font-family:'Syne',sans-serif;font-weight:700;color:var(--text3);min-width:58px;padding-top:2px;}
+.tl-body h4{font-size:.82rem;font-weight:600;margin-bottom:2px;}
+.tl-body p{font-size:.75rem;color:var(--text2);line-height:1.5;}
+
+/* ── BATTLECARD ── */
+.battlecard{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:1rem;transition:background .22s;}
+.bc-header{display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.2rem;background:var(--bg3);border-bottom:1px solid var(--border);cursor:pointer;transition:background .22s;}
+.bc-header h3{font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700;display:flex;align-items:center;gap:.6rem;}
+.bc-arrow{font-size:.75rem;color:var(--text3);}
+.bc-body{padding:1.1rem 1.2rem;display:none;}
+.bc-body.open{display:block;}
+.bc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:.75rem;}
+@media(max-width:640px){.bc-grid{grid-template-columns:1fr;}}
+.bc-col h4{font-size:.67rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:.55rem;}
+.bc-col.win h4{color:var(--green);}.bc-col.lose h4{color:var(--red);}
+.bc-col ul{list-style:none;}
+.bc-col ul li{font-size:.76rem;padding:3px 0;border-bottom:1px solid var(--border);color:var(--text2);line-height:1.5;}
+.bc-col ul li:last-child{border-bottom:none;}
+.bc-col.win ul li::before{content:'✓  ';color:var(--green);font-weight:700;}
+.bc-col.lose ul li::before{content:'✗  ';color:var(--red);font-weight:700;}
+.threat-high{background:var(--red-l);color:var(--red);font-weight:700;font-size:.64rem;padding:2px 7px;border-radius:4px;}
+.threat-med{background:var(--amber-l);color:var(--amber);font-weight:700;font-size:.64rem;padding:2px 7px;border-radius:4px;}
+.threat-low{background:var(--green-l);color:var(--green);font-weight:700;font-size:.64rem;padding:2px 7px;border-radius:4px;}
+
+/* ── ICP ── */
+.icp-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:.85rem;display:flex;gap:1rem;align-items:flex-start;cursor:pointer;transition:all .15s;}
+.icp-card:hover{border-color:var(--blue);box-shadow:0 2px 12px rgba(59,130,246,.1);}
+.icp-icon{font-size:1.75rem;flex-shrink:0;}
+.icp-pri{font-size:.62rem;font-weight:700;padding:2px 7px;border-radius:4px;margin-bottom:.4rem;display:inline-block;}
+.icp-pri.p1{background:var(--blue-l);color:var(--blue);}
+.icp-pri.p2{background:var(--amber-l);color:var(--amber);}
+.icp-pri.p3{background:var(--green-l);color:var(--green);}
+.icp-title{font-family:'Syne',sans-serif;font-size:.92rem;font-weight:700;margin-bottom:.2rem;}
+.icp-body{font-size:.76rem;color:var(--text2);line-height:1.55;}
+.icp-signals{margin-top:.5rem;display:none;}
+.icp-signals strong{font-size:.65rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);}
+
+/* ── PITCH BUILDER ── */
+.pb-form{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;margin-bottom:1.2rem;}
+.pb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:.85rem;margin-bottom:.9rem;}
+.pb-field label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);display:block;margin-bottom:4px;}
+.pb-field select,.pb-field input{width:100%;padding:.46rem .65rem;background:var(--input);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-size:.78rem;font-family:'DM Sans',sans-serif;outline:none;transition:border .15s;}
+.pb-field select:focus,.pb-field input:focus{border-color:var(--blue);}
+.gen-btn{background:var(--blue);color:white;border:none;padding:.55rem 1.3rem;border-radius:7px;font-size:.8rem;font-weight:700;cursor:pointer;font-family:'Syne',sans-serif;transition:all .15s;}
+.gen-btn:hover{background:var(--blue-d);}
+.pitch-out{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem;display:none;}
+.pitch-out.show{display:block;}
+.pitch-block{margin-bottom:1rem;}
+.pitch-block h4{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.35rem;display:flex;align-items:center;justify-content:space-between;}
+.pitch-block p{font-size:.8rem;color:var(--text2);line-height:1.65;background:var(--bg3);padding:.7rem .9rem;border-radius:6px;}
+.copy-btn{font-size:.65rem;color:var(--blue);border:1px solid var(--border2);background:var(--blue-l);border-radius:4px;padding:2px 7px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* ── ROI CALCULATOR ── */
+.roi-wrap{display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;align-items:start;}
+@media(max-width:700px){.roi-wrap{grid-template-columns:1fr;}}
+.roi-field label{font-size:.65rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--text3);display:block;margin-bottom:4px;}
+.roi-field{margin-bottom:.85rem;}
+.roi-field input,.roi-field select{width:100%;padding:.48rem .7rem;background:var(--input);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-size:.82rem;font-family:'DM Sans',sans-serif;outline:none;transition:border .15s;}
+.roi-field input:focus{border-color:var(--blue);}
+.roi-result-row{display:flex;justify-content:space-between;align-items:baseline;padding:.5rem 0;border-bottom:1px solid var(--border);}
+.roi-result-row:last-of-type{border-bottom:none;}
+.roi-lbl{font-size:.77rem;color:var(--text2);}
+.roi-val{font-family:'Syne',sans-serif;font-size:1rem;font-weight:800;}
+.roi-val.green{color:var(--green);}.roi-val.blue{color:var(--blue);}.roi-val.amber{color:var(--amber);}
+
+/* ── SALESMIND: COMPANY GRID ── */
+.sm-wrap{display:grid;grid-template-columns:1fr;gap:1rem;}
+.sm-controls{display:flex;align-items:center;gap:.75rem;flex-wrap:wrap;margin-bottom:1rem;}
+.sm-controls select,.sm-controls input{padding:.42rem .65rem;background:var(--input);border:1px solid var(--border2);border-radius:7px;color:var(--text);font-size:.75rem;font-family:'DM Sans',sans-serif;outline:none;}
+.sm-controls select:focus,.sm-controls input:focus{border-color:var(--blue);}
+.sm-seg-tabs{display:flex;gap:5px;flex-wrap:wrap;}
+.seg-tab{padding:.38rem .85rem;border-radius:20px;font-size:.74rem;font-weight:600;cursor:pointer;border:1px solid var(--border2);color:var(--text2);background:transparent;transition:all .15s;}
+.seg-tab.active{background:var(--blue);border-color:var(--blue);color:white;}
+.sm-metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:.65rem;margin-bottom:1rem;}
+.sm-met{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:.75rem 1rem;position:relative;overflow:hidden;}
+.sm-met::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--blue),var(--cyan));}
+.sm-met-val{font-family:'DM Mono',monospace;font-size:1.4rem;font-weight:700;color:var(--blue);}
+.sm-met-lbl{font-size:.63rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:2px;}
+.sm-view-tabs{display:flex;gap:0;background:var(--pill);border-radius:9px;padding:3px;width:fit-content;margin-bottom:.9rem;}
+.sm-vtab{padding:.38rem .9rem;border-radius:7px;font-size:.74rem;font-weight:600;cursor:pointer;color:var(--text2);background:transparent;border:none;transition:all .15s;display:flex;align-items:center;gap:5px;}
+.sm-vtab.active{background:var(--bg2);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.15);}
+.co-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:.85rem;max-height:560px;overflow-y:auto;padding-right:3px;}
+.co-grid::-webkit-scrollbar{width:3px;}.co-grid::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:4px;}
+.co-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;position:relative;transition:all .2s;}
+.co-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2);border-color:var(--border2);}
+.co-hdr{padding:.75rem .9rem;border-bottom:1px solid var(--border);background:rgba(255,255,255,.02);}
+[data-theme="light"] .co-hdr{background:#f6f9ff;}
+.co-name{font-size:.9rem;font-weight:700;padding-right:70px;}
+.co-meta{font-size:.62rem;color:var(--text3);margin-top:2px;font-family:'DM Mono',monospace;}
+.co-chip{position:absolute;top:.65rem;right:.75rem;font-size:.58rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;padding:2px 6px;border-radius:20px;border:1px solid;}
+.chip-banking{background:rgba(59,130,246,.15);color:#93c5fd;border-color:rgba(59,130,246,.3);}
+.chip-fintech{background:rgba(16,185,129,.15);color:#6ee7b7;border-color:rgba(16,185,129,.3);}
+.chip-edtech{background:rgba(139,92,246,.15);color:#c4b5fd;border-color:rgba(139,92,246,.3);}
+.chip-ecommerce{background:rgba(245,158,11,.15);color:#fcd34d;border-color:rgba(245,158,11,.3);}
+.chip-saas{background:rgba(6,182,212,.15);color:#67e8f9;border-color:rgba(6,182,212,.3);}
+.chip-healthtech{background:rgba(239,68,68,.15);color:#fca5a5;border-color:rgba(239,68,68,.3);}
+[data-theme="light"] .chip-banking{background:#dbeafe;color:#1e40af;border-color:#bfdbfe;}
+[data-theme="light"] .chip-fintech{background:#d1fae5;color:#065f46;border-color:#a7f3d0;}
+[data-theme="light"] .chip-edtech{background:#ede9fe;color:#4c1d95;border-color:#ddd6fe;}
+[data-theme="light"] .chip-ecommerce{background:#fef3c7;color:#78350f;border-color:#fde68a;}
+[data-theme="light"] .chip-saas{background:#cffafe;color:#164e63;border-color:#a5f3fc;}
+[data-theme="light"] .chip-healthtech{background:#fee2e2;color:#7f1d1d;border-color:#fecaca;}
+.co-body{padding:.75rem .9rem;}
+.co-info{display:flex;justify-content:space-between;padding:2px 0;font-size:.68rem;}
+.co-info-lbl{color:var(--text3);}.co-info-val{color:var(--text);font-weight:500;}
+.ct-block{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:7px;padding:.5rem .65rem;margin-top:.45rem;}
+[data-theme="light"] .ct-block{background:#eef3ff;}
+.ct-name{font-size:.76rem;font-weight:700;color:var(--blue);}
+.ct-title{font-size:.62rem;color:var(--text3);margin-top:1px;}
+.ct-det{font-size:.62rem;color:var(--text2);display:flex;align-items:center;gap:4px;margin-top:2px;font-family:'DM Mono',monospace;}
+.blurred{filter:blur(5px);user-select:none;}
+.add-btn{width:100%;padding:.35rem;border-radius:6px;font-size:.67rem;font-weight:700;cursor:pointer;margin-top:.45rem;border:1px solid;transition:all .15s;font-family:'DM Sans',sans-serif;}
+.add-btn.open{background:var(--green-l);color:var(--green);border-color:rgba(16,185,129,.25);}
+.add-btn.open:hover{background:rgba(16,185,129,.2);}
+.add-btn.locked{background:rgba(148,163,184,.07);color:var(--text3);border-color:var(--border);}
+.prem-overlay{position:absolute;inset:0;background:rgba(10,15,30,.87);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;border-radius:var(--radius);z-index:10;cursor:pointer;}
+[data-theme="light"] .prem-overlay{background:rgba(240,244,255,.88);}
+.prem-msg{text-align:center;padding:1.25rem;}
+.prem-msg .pm-icon{font-size:1.75rem;margin-bottom:.4rem;}
+.prem-msg h4{font-size:.85rem;font-weight:700;margin-bottom:.25rem;}
+.prem-msg p{font-size:.7rem;color:var(--text2);margin-bottom:.6rem;}
+.unlock-btn{background:linear-gradient(135deg,var(--amber),var(--red));color:white;border:none;padding:.38rem .9rem;border-radius:7px;font-size:.72rem;font-weight:700;cursor:pointer;}
+.pg-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:.85rem;flex-wrap:wrap;gap:.4rem;}
+.pg-info{font-size:.7rem;color:var(--text3);font-family:'DM Mono',monospace;}
+.pg-btns{display:flex;gap:3px;}
+.pg-btn{padding:.3rem .6rem;background:var(--card);border:1px solid var(--border);border-radius:5px;font-size:.7rem;color:var(--text2);cursor:pointer;transition:all .12s;}
+.pg-btn:hover:not(:disabled){border-color:var(--blue);color:var(--blue);}
+.pg-btn.active{background:var(--blue);border-color:var(--blue);color:white;}
+.pg-btn:disabled{opacity:.3;cursor:not-allowed;}
+.scrape-row{display:flex;align-items:center;gap:.85rem;flex-wrap:wrap;margin-bottom:.9rem;}
+.scrape-status{font-size:.72rem;color:var(--text2);font-family:'DM Mono',monospace;}
+.prog-track{flex:1;min-width:100px;height:3px;background:var(--bg3);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;width:0%;background:linear-gradient(90deg,var(--blue),var(--cyan));transition:width .2s;}
+.pl-wrap{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.pl-toolbar{padding:.65rem .9rem;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.pl-table{width:100%;border-collapse:collapse;font-size:.72rem;overflow-x:auto;display:block;}
+.pl-table thead th{padding:.5rem .75rem;text-align:left;font-size:.62rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);background:rgba(255,255,255,.02);border-bottom:1px solid var(--border);position:sticky;top:0;white-space:nowrap;}
+[data-theme="light"] .pl-table thead th{background:#f6f9ff;}
+.pl-table tbody td{padding:.5rem .75rem;border-bottom:1px solid var(--border);}
+.pl-table tbody tr:last-child td{border-bottom:none;}
+.pl-table tbody tr:hover td{background:rgba(255,255,255,.02);}
+[data-theme="light"] .pl-table tbody tr:hover td{background:#f6f9ff;}
+.stg-sel{background:var(--bg3);border:1px solid var(--border);color:var(--text);border-radius:5px;padding:2px 5px;font-size:.67rem;font-family:'DM Sans',sans-serif;}
+.rm-btn{background:var(--red-l);color:var(--red);border:1px solid rgba(239,68,68,.2);border-radius:4px;padding:2px 7px;font-size:.62rem;cursor:pointer;}
+.chart-card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:1.1rem;}
+.chart-card h3{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:.85rem;}
+canvas{max-height:190px;}
+
+/* ── MODAL ── */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:1000;align-items:center;justify-content:center;backdrop-filter:blur(8px);}
+.modal.open{display:flex;}
+.modal-box{background:var(--bg2);border:1px solid var(--border2);border-radius:var(--radius-lg);padding:2.25rem;max-width:400px;width:100%;margin:1rem;animation:slideUp .22s ease;box-shadow:0 20px 60px rgba(0,0,0,.4);}
+@keyframes slideUp{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+.modal-box h2{font-family:'Syne',sans-serif;font-size:1.25rem;font-weight:800;text-align:center;margin-bottom:.35rem;letter-spacing:-.02em;}
+.modal-box p{font-size:.8rem;color:var(--text2);text-align:center;margin-bottom:1.25rem;line-height:1.6;}
+.modal-feats{display:flex;flex-direction:column;gap:5px;margin-bottom:1.25rem;}
+.modal-feat{display:flex;align-items:center;gap:7px;font-size:.77rem;color:var(--text2);}
+.modal-feat span:first-child{color:var(--green);}
+.modal-input{width:100%;padding:.68rem .9rem;background:var(--input);border:1px solid var(--border2);border-radius:9px;color:var(--text);font-size:.85rem;font-family:'DM Sans',sans-serif;margin-bottom:.65rem;outline:none;transition:border .15s;}
+.modal-input:focus{border-color:var(--blue);}
+.modal-input.err{border-color:var(--red);}
+.modal-submit{width:100%;padding:.72rem;background:var(--blue);border:none;border-radius:9px;color:white;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .15s;}
+.modal-submit:hover{background:var(--blue-d);}
+.modal-close{display:block;width:100%;margin-top:.55rem;padding:.48rem;background:transparent;border:1px solid var(--border2);border-radius:7px;color:var(--text2);font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:1.25rem;right:1.25rem;z-index:9999;background:var(--bg2);border:1px solid var(--border2);border-radius:9px;padding:.55rem .9rem;font-size:.77rem;color:var(--text);display:flex;align-items:center;gap:7px;transform:translateX(160%);transition:transform .28s;box-shadow:0 4px 20px rgba(0,0,0,.25);}
+.toast.show{transform:translateX(0);}
+
+/* ── FOOTER ── */
+.site-footer{background:var(--bg2);border-top:1px solid var(--border);padding:1.75rem 2rem;margin-top:2rem;}
+.footer-inner{max-width:1240px;margin:0 auto;display:flex;justify-content:space-between;gap:2rem;flex-wrap:wrap;}
+.footer-col{display:flex;flex-direction:column;gap:5px;font-size:.75rem;color:var(--text2);}
+.footer-col strong{font-size:.64rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:2px;}
+.footer-col a{color:var(--text2);text-decoration:none;}
+.footer-col a:hover{color:var(--text);text-decoration:underline;}
+.footer-bottom{max-width:1240px;margin:.9rem auto 0;padding-top:.85rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;font-size:.68rem;color:var(--text3);}
+.footer-bottom a{color:var(--text3);text-decoration:underline;}
+.empty{text-align:center;padding:2.5rem 1rem;color:var(--text3);font-size:.82rem;}
+
+@media(max-width:900px){
+  .app-shell{flex-direction:column;height:auto;overflow:auto;}
+  .sidebar{width:100%;border-right:none;border-bottom:1px solid var(--border);display:flex;flex-wrap:wrap;gap:.25rem;padding:.5rem;}
+  .nav-group{margin-bottom:.25rem;}
+  .nav-group-label{display:none;}
+  .sidebar{overflow-x:auto;}
+  .co-grid{grid-template-columns:1fr;}
+}
 </style>
 </head>
 <body>
 
-<div class="demo-banner">📊 bluCognition Sales Intelligence | Complete Market Data + Real-Time ROI Calculator | Page 1: Full Access | Page 2+: Demo</div>
+<div class="demo-banner">
+  <span>🔵 Demo built for <strong>bluCognition</strong></span><span class="db-dot">·</span>
+  <span>Customised by <strong>Gogo</strong></span><span class="db-dot">·</span>
+  <a href="mailto:your@email.com">your@email.com</a><span class="db-dot">·</span>
+  <span>Not for distribution</span>
+</div>
 
 <header class="header">
   <div class="header-inner">
-    <div class="logo"><div class="logo-icon">🧠</div><div><div class="logo-text">SalesMind Pro</div><div class="logo-sub">bluCognition Intelligence Suite</div></div></div>
-    <div style="display: flex; gap: 8px;"><button class="theme-toggle" id="themeToggle" onclick="toggleTheme()">🌙</button></div>
+    <div class="logo">
+      <img src="https://www.blucognition.com/wp-content/uploads/2023/05/bluCognition_logo_tagline_landscape.svg"
+        alt="bluCognition" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+      <div class="logo-fallback" style="display:none">BC</div>
+      <div style="margin-left:10px">
+        <div class="logo-text">Intelligence Platform</div>
+        <div class="logo-sub">SALES KIT + MARKET DATA + LEAD INTELLIGENCE</div>
+      </div>
+    </div>
+    <div class="header-actions">
+      <span id="accessBadge" class="badge badge-free">FREE TIER</span>
+      <button class="btn btn-ghost" onclick="exportCSV()">⬇ Export Pipeline</button>
+      <button class="btn btn-blue" onclick="openModal()">🔓 Upgrade</button>
+      <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    </div>
   </div>
 </header>
 
-<nav class="nav">
-  <a class="active" onclick="show('overview',this)">Overview</a>
-  <a onclick="show('market',this)">📊 Market Intelligence</a>
-  <a onclick="show('roi',this)">💰 ROI Calculator</a>
-  <a onclick="show('intel',this)">🏢 Company Intel</a>
-  <a onclick="show('pipeline',this)">📋 Pipeline</a>
-</nav>
+<div class="app-shell">
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="nav-group">
+    <div class="nav-group-label">Sales Kit</div>
+    <div class="nav-item active" onclick="showTab('overview',this)"><span class="nav-icon">🏠</span>Overview</div>
+    <div class="nav-item" onclick="showTab('icp',this)"><span class="nav-icon">🎯</span>Ideal Customers</div>
+    <div class="nav-item" onclick="showTab('battlecards',this)"><span class="nav-icon">⚔️</span>Battlecards</div>
+    <div class="nav-item" onclick="showTab('whywin',this)"><span class="nav-icon">🏆</span>Why We Win</div>
+    <div class="nav-item" onclick="showTab('pitch',this)"><span class="nav-icon">✍️</span>Pitch Builder</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Market Intelligence</div>
+    <div class="nav-item" onclick="showTab('lending',this)"><span class="nav-icon">🏦</span>Lending Market</div>
+    <div class="nav-item" onclick="showTab('mca',this)"><span class="nav-icon">💳</span>MCA Industry</div>
+    <div class="nav-item" onclick="showTab('fraud',this)"><span class="nav-icon">🚨</span>Fraud Landscape</div>
+    <div class="nav-item" onclick="showTab('sbfe',this)"><span class="nav-icon">🤝</span>SBFE Partnership</div>
+    <div class="nav-item" onclick="showTab('roi',this)"><span class="nav-icon">📊</span>ROI Calculator</div>
+  </div>
+  <div class="nav-group">
+    <div class="nav-group-label">Lead Intelligence</div>
+    <div class="nav-item" onclick="showTab('companies',this)"><span class="nav-icon">🧠</span>SalesMind Pro</div>
+    <div class="nav-item" onclick="showTab('pipeline',this)"><span class="nav-icon">📋</span>Pipeline</div>
+    <div class="nav-item" onclick="showTab('analytics',this)"><span class="nav-icon">📈</span>Analytics</div>
+  </div>
+</aside>
 
-<!-- Overview -->
-<div id="overview" class="section active">
-  <div class="page">
-    <h1 class="page-title">bluCognition Sales Intelligence</h1>
-    <p class="page-sub">AI-powered bank statement analytics + document fraud detection for financial institutions</p>
-    <div class="stats-row">
-      <div class="stat"><div class="stat-val">&lt;30s</div><div class="stat-lbl">Processing Time</div></div>
-      <div class="stat"><div class="stat-val">75%</div><div class="stat-lbl">Efficiency Gain</div></div>
-      <div class="stat"><div class="stat-val">50%</div><div class="stat-lbl">Cost Reduction</div></div>
-      <div class="stat"><div class="stat-val">50M+</div><div class="stat-lbl">Transactions Trained</div></div>
-    </div>
-    <div class="grid2">
-      <div class="card"><div class="card-title">bluSense — Bank Statement Analytics</div><div class="card-body">40+ transaction categories, 50+ financial metrics: revenue, COGS, cash flow, risk scores. Global bank support including non-English markets.</div><div><span class="tag">Real-time API</span><span class="tag">Risk Score</span></div></div>
-      <div class="card"><div class="card-title">FraudLens — Document Fraud Detection</div><div class="card-body">16+ forensic indicators: X-ray vision, fingerprinting, metadata forensics, PDF recovery. Trained on 10M+ documents.</div><div><span class="tag">X-ray Recovery</span><span class="tag">Forensics</span></div></div>
-      <div class="card"><div class="card-title">Managed Services</div><div class="card-body">End-to-end underwriting, spreading, fraud review at half the cost. Full ops model for lean teams.</div><div><span class="tag">50% Cost Reduction</span></div></div>
-    </div>
-    <div class="card"><div class="card-title">Trusted By Industry Leaders</div><div><span class="tag">WEX</span><span class="tag">Fiserv</span><span class="tag">PayPal</span><span class="tag">American Express</span><span class="tag">Stripe</span><span class="tag">Brex</span></div><div class="card-body" style="margin-top:0.5rem;">SOC 2 Type II · PCI DSS · ISO 27001 · GDPR Compliant</div></div>
+<!-- CONTENT -->
+<div class="content">
+<div class="page">
+
+<!-- ════════════ OVERVIEW ════════════ -->
+<div id="tab-overview" class="tab-panel active">
+  <h1 class="page-title">bluCognition Overview</h1>
+  <p class="page-sub">AI-powered bank statement analytics + document fraud detection for financial institutions · <a href="https://www.blucognition.com" target="_blank" style="color:var(--blue)">blucognition.com</a> · <a href="https://www.linkedin.com/company/blucognition/" target="_blank" style="color:var(--blue)">LinkedIn</a> · <a href="mailto:info@blucognition.com" style="color:var(--blue)">info@blucognition.com</a></p>
+  <div class="grid4">
+    <div class="stat-card blue"><div class="stat-val blue">&lt;30s</div><div class="stat-lbl">Statement processing</div></div>
+    <div class="stat-card green"><div class="stat-val green">75%</div><div class="stat-lbl">Efficiency gain</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">80%</div><div class="stat-lbl">Less data re-entry</div></div>
+    <div class="stat-card blue"><div class="stat-val blue">50%</div><div class="stat-lbl">Cost reduction</div></div>
+    <div class="stat-card purple"><div class="stat-val purple">50M+</div><div class="stat-lbl">Transactions trained</div></div>
+    <div class="stat-card red"><div class="stat-val red">10M+</div><div class="stat-lbl">Documents in model</div></div>
+  </div>
+  <div class="section-head">Products <div class="sh-line"></div></div>
+  <div class="grid2">
+    <div class="card"><div class="card-title">bluSense — Bank Statement Analytics</div><div class="card-body">Real-time conversion + 40+ transaction categories, 50+ financial features (revenue, COGS, cash flow, overdrafts, loan repayments). Proprietary risk score. Global + non-English bank support. Trained on 50M+ transactions.</div><div style="margin-top:.65rem"><span class="tag tag-blue">Real-time API</span><span class="tag tag-blue">50+ analytics</span><span class="tag tag-blue">Global coverage</span></div></div>
+    <div class="card"><div class="card-title">FraudLens — Document Fraud Detection</div><div class="card-body">16+ forensic indicators: X-ray vision, font anomaly, metadata forensics, third-party editor flags, template fingerprinting, copycat text/image matching. High/Medium/Low/No risk scoring. Trained on 10M+ documents.</div><div style="margin-top:.65rem"><span class="tag tag-red">16+ indicators</span><span class="tag tag-red">X-ray vision</span><span class="tag tag-red">Template fingerprinting</span></div></div>
+    <div class="card"><div class="card-title">bluData+ — Data Augmentation</div><div class="card-body">Web scraping at scale to assess a company's digital presence for due diligence before lending or partnering. Eliminates hundreds of manual searches.</div><div style="margin-top:.65rem"><span class="tag tag-amber">Web intelligence</span><span class="tag tag-amber">Business profiling</span></div></div>
+    <div class="card"><div class="card-title">Managed Services</div><div class="card-body">End-to-end underwriting ops: commercial underwriting, statement spreading, fraud review, KYC/KYB, dispute management. Clients report 50% cost reduction vs in-house.</div><div style="margin-top:.65rem"><span class="tag tag-green">Full-ops</span><span class="tag tag-green">KYC/KYB</span><span class="tag tag-green">50% cost saving</span></div></div>
+  </div>
+  <div class="section-head">Current Clients <div class="sh-line"></div></div>
+  <div class="card"><div style="display:flex;flex-wrap:wrap;gap:6px"><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">WEX</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Fiserv</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">PayPal</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">American Express</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Stripe</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Zip</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Brex</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Lendio</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Credibly</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Covalto</span><span class="tag tag-blue" style="font-size:.72rem;padding:3px 10px">Charter Comms</span><span class="tag tag-green" style="font-size:.72rem;padding:3px 10px">+ SBFE Partner (Feb 2025)</span></div></div>
+  <div class="section-head" style="margin-top:1.25rem">Certifications <div class="sh-line"></div></div>
+  <div class="card"><div style="display:flex;flex-wrap:wrap;gap:6px"><span class="tag tag-green" style="font-size:.72rem;padding:3px 10px">✓ SOC 2 Type II</span><span class="tag tag-green" style="font-size:.72rem;padding:3px 10px">✓ PCI DSS</span><span class="tag tag-green" style="font-size:.72rem;padding:3px 10px">✓ ISO 27001-2022</span><span class="tag tag-green" style="font-size:.72rem;padding:3px 10px">✓ GDPR Compliant</span></div></div>
+</div>
+
+<!-- ════════════ ICP ════════════ -->
+<div id="tab-icp" class="tab-panel">
+  <h1 class="page-title">Ideal Customer Profiles</h1>
+  <p class="page-sub">Click any card to expand buying signals and named target companies</p>
+  <div class="icp-card" onclick="toggleICP(this)"><div class="icp-icon">🏦</div><div><span class="icp-pri p1">PRIORITY 1 — HIGHEST FIT</span><div class="icp-title">SMB & MCA Lenders</div><div class="icp-body">Merchant cash advance companies and SMB lenders processing high volumes of bank statements. Manual review is their biggest bottleneck — bluSense automates in &lt;30 seconds. FraudLens catches altered statements before funding.</div><div class="icp-signals"><strong>Buying signals:</strong><div style="margin-top:.35rem"><span class="tag tag-blue">Volume &gt;500 statements/mo</span><span class="tag tag-blue">Fraud losses reported</span><span class="tag tag-blue">Manual review team</span></div><div style="margin-top:.4rem;font-size:.74rem;color:var(--text2)"><strong>Target companies:</strong> OnDeck, Kabbage, Credibly, Funding Circle, Rapid Finance, Kapitus, Fora Financial, Greenbox Capital, Reliant Funding, CAN Capital</div></div></div></div>
+  <div class="icp-card" onclick="toggleICP(this)"><div class="icp-icon">💳</div><div><span class="icp-pri p1">PRIORITY 1 — EXISTING CHANNEL</span><div class="icp-title">Merchant Processors & Embedded Lenders</div><div class="icp-body">WEX, Fiserv, Stripe, Zip already clients. Target embedded BNPL, B2B payments with credit. Real-time cash flow without traditional bureau data.</div><div class="icp-signals"><strong>Buying signals:</strong><div style="margin-top:.35rem"><span class="tag tag-green">Uses adjacent fintech APIs</span><span class="tag tag-green">Offers embedded credit</span></div><div style="margin-top:.4rem;font-size:.74rem;color:var(--text2)"><strong>Targets:</strong> Affirm, Klarna, Sezzle, FIS, Worldpay, Global Payments, Parafin, ADP Capital</div></div></div></div>
+  <div class="icp-card" onclick="toggleICP(this)"><div class="icp-icon">🏢</div><div><span class="icp-pri p2">PRIORITY 2 — HIGH VALUE</span><div class="icp-title">Community & Regional Banks (US)</div><div class="icp-body">Mid-sized banks ($1B–$50B assets) modernising commercial loan origination. No engineering bandwidth to build their own analytics. Managed services + API combo ideal.</div><div class="icp-signals"><strong>Buying signals:</strong><div style="margin-top:.35rem"><span class="tag tag-amber">Commercial lending focus</span><span class="tag tag-amber">Digital transformation initiative</span></div><div style="margin-top:.4rem;font-size:.74rem;color:var(--text2)"><strong>Channel:</strong> BAI, Finovate conferences · Jack Henry, Q2, nCino partner referrals · Alloy partner network</div></div></div></div>
+  <div class="icp-card" onclick="toggleICP(this)"><div class="icp-icon">🏠</div><div><span class="icp-pri p2">PRIORITY 2 — FRAUD USE CASE</span><div class="icp-title">Mortgage Originators & Non-QM Lenders</div><div class="icp-body">FraudLens purpose-built for mortgage: altered pay stubs, tax returns, and bank statements — fastest-growing fraud vector in mortgage origination.</div><div class="icp-signals"><strong>Buying signals:</strong><div style="margin-top:.35rem"><span class="tag tag-amber">First-party fraud incidents</span><span class="tag tag-amber">Alt-doc loan products</span></div><div style="margin-top:.4rem;font-size:.74rem;color:var(--text2)"><strong>Targets:</strong> Better.com, Guaranteed Rate, UWM, Deephaven Mortgage, Angel Oak, NewRez, Acra Lending</div></div></div></div>
+  <div class="icp-card" onclick="toggleICP(this)"><div class="icp-icon">🌏</div><div><span class="icp-pri p3">PRIORITY 3 — EXPANSION MARKET</span><div class="icp-title">India, LatAm & Southeast Asia NBFCs</div><div class="icp-body">bluSense's non-English global coverage opens enormous markets. India has millions of SMB loan applications via bank statement underwriting. Ocrolus doesn't operate here.</div><div class="icp-signals"><strong>Entry points:</strong><div style="margin-top:.35rem"><span class="tag tag-green">India NBFCs</span><span class="tag tag-green">LatAm via Covalto</span><span class="tag tag-green">SEA digital banks</span></div><div style="margin-top:.4rem;font-size:.74rem;color:var(--text2)"><strong>India targets:</strong> Lendingkart, NeoGrowth, Kinara Capital, FlexiLoans, Progcap, Indifi, U GRO Capital</div></div></div></div>
+</div>
+
+<!-- ════════════ BATTLECARDS ════════════ -->
+<div id="tab-battlecards" class="tab-panel">
+  <h1 class="page-title">Competitor Battlecards</h1>
+  <p class="page-sub">Click to expand — win/loss analysis + verbatim talk tracks</p>
+  <div class="battlecard"><div class="bc-header" onclick="toggleBC(this)"><h3>vs. Ocrolus <span class="threat-high">High Threat</span></h3><span class="bc-arrow">▼</span></div><div class="bc-body"><div class="bc-grid"><div class="bc-col win"><h4>Where we win</h4><ul><li>Fully automated — no human-in-the-loop delays, &lt;30 sec vs Ocrolus multi-minute latency</li><li>Supports non-English banks globally — Ocrolus is US-only</li><li>Combined analytics + fraud in one API call — Ocrolus needs separate fraud tooling</li><li>Transparent managed services — Ocrolus is opaque, requires annual contracts</li><li>SBFE data partnership — unique integrated view of credit + cash flow</li></ul></div><div class="bc-col lose"><h4>Where they challenge us</h4><ul><li>Larger US brand recognition in mortgage/SMB lending</li><li>Deep LOS integrations (Encompass, Blend, nCino) already live</li><li>$122M raised — larger marketing budget</li><li>Human review option appeals to automation-nervous teams</li></ul></div></div><div class="insight">"Ocrolus routes edge cases through human reviewers — adding unpredictable latency and cost. Our fully automated pipeline delivers in under 30 seconds, every time. And uniquely, we pair that with FraudLens forensics in the same API call. We also support your international portfolio — Ocrolus doesn't process non-English formats."</div></div></div>
+  <div class="battlecard"><div class="bc-header" onclick="toggleBC(this)"><h3>vs. Inscribe <span class="threat-med">Medium Threat</span></h3><span class="bc-arrow">▼</span></div><div class="bc-body"><div class="bc-grid"><div class="bc-col win"><h4>Where we win</h4><ul><li>We have the cash flow analytics layer — Inscribe is fraud-only</li><li>FraudLens has deeper forensics: X-ray vision, fingerprinting, PDF recovery</li><li>Managed services option — full outsourced underwriting ops</li><li>Stronger compliance stack: SOC2 + PCI DSS + ISO + GDPR</li></ul></div><div class="bc-col lose"><h4>Where they challenge us</h4><ul><li>Strong developer-friendly API reputation</li><li>Simpler sales conversation for fraud-only buyers</li></ul></div></div><div class="insight">"If all you need is a fraud flag, Inscribe is worth considering. But most lenders need to understand the cash flow picture and detect fraud on the same statement. That's our differentiation: analytics intelligence and fraud forensics in one integration."</div></div></div>
+  <div class="battlecard"><div class="bc-header" onclick="toggleBC(this)"><h3>vs. Resistant AI <span class="threat-high">High Threat (Fraud Layer)</span></h3><span class="bc-arrow">▼</span></div><div class="bc-body"><div class="bc-grid"><div class="bc-col win"><h4>Where we win</h4><ul><li>We have the cash flow analytics layer — Resistant AI is forensics-only</li><li>Stronger US + LatAm + Asia presence</li><li>Managed services for customers who want ops support</li></ul></div><div class="bc-col lose"><h4>Where they challenge us</h4><ul><li>Comparable forensic depth — strong on FraudLens's turf</li><li>European regulatory expertise for EU-expansion deals</li></ul></div></div><div class="insight">"Resistant AI has strong forensic tech in Europe. But their product stops at fraud detection — you'd still need a separate vendor for cash flow analytics. With bluCognition you get both in one API with one contract."</div></div></div>
+  <div class="battlecard"><div class="bc-header" onclick="toggleBC(this)"><h3>vs. / with Alloy <span class="threat-low">Partner + Distribution Channel</span></h3><span class="bc-arrow">▼</span></div><div class="bc-body"><div class="card-body">bluCognition is a <strong>named Alloy data partner</strong> — a distribution channel, not purely a threat. Alloy customers can plug in bluSense/FraudLens through the Alloy orchestration layer. <strong>Sales angle:</strong> "You're already using Alloy for identity decisions — adding bluCognition's bank statement analytics plugs in through your existing Alloy workflow with minimal engineering lift." <strong>Co-sell opportunity:</strong> Propose bluCognition as preferred bank statement + fraud partner surfaced to all Alloy clients (7 of top 25 US banks + hundreds of fintechs).</div></div></div>
+  <div class="battlecard"><div class="bc-header" onclick="toggleBC(this)"><h3>vs. Plaid / MX / Heron Data <span class="threat-med">Partial Overlap</span></h3><span class="bc-arrow">▼</span></div><div class="bc-body"><div class="bc-grid"><div class="bc-col win"><h4>Where we win</h4><ul><li>We work on PDF statements — no bank API needed. Covers all markets + legacy banks</li><li>FraudLens forensics — Plaid/MX have zero document fraud detection</li><li>Works where open banking doesn't: emerging markets, uploaded documents</li></ul></div><div class="bc-col lose"><h4>Where they challenge us</h4><ul><li>Live bank connection = unfalsifiable (no document fraud possible at source)</li><li>Wider consumer brand recognition</li><li>Richer transaction history via full account access</li></ul></div></div><div class="insight">"Plaid is great when the borrower consents to a live bank connection — but in SMB lending, applicants submit PDF statements. Those are the documents that get altered. That's exactly where FraudLens catches fraud that open banking can't detect."</div></div></div>
+</div>
+
+<!-- ════════════ WHY WIN ════════════ -->
+<div id="tab-whywin" class="tab-panel">
+  <h1 class="page-title">Why bluCognition Wins</h1>
+  <p class="page-sub">Seven durable competitive advantages — anchor every sales conversation to these</p>
+  <div class="card" style="padding:1.25rem 1.5rem">
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">01</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">Analytics + Fraud in one platform</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">Most competitors do one or the other. Buying both from one vendor reduces integration complexity and vendor management overhead. For lean underwriting teams, this is a material operational advantage.</div></div></div>
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">02</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">Sub-30-second fully automated turnaround</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">Ocrolus routes edge cases through human reviewers — adding unpredictable latency. Critical for embedded lending and high-volume MCA where delays kill deal velocity.</div></div></div>
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">03</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">International & non-English market coverage</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">Ocrolus is largely US-only. bluSense supports global banks including non-English-speaking countries — unlocking LatAm, SEA, and India where no US competitor operates at scale.</div></div></div>
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">04</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">16+ FraudLens forensic indicators</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">X-ray vision that recovers original PDFs, fingerprinting against 10M+ genuine templates, font anomaly, brush detection, flattened PDF detection, copycat text/image matching. Depth comparable to Resistant AI but paired with analytics.</div></div></div>
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">05</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">Managed services — not just a tool vendor</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">End-to-end underwriting operations at 50% cost of in-house. Huge unlock for smaller lenders who can't afford dedicated ops teams and don't just want software.</div></div></div>
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;border-bottom:1px solid var(--border);align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">06</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">SBFE partnership — only provider of its kind (Feb 2025)</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">Listed alongside Dun & Bradstreet, Equifax, Experian, and LexisNexis as an SBFE data partner. The only provider that merges real-time bank transaction AI with SBFE commercial credit bureau data. Covers 140+ lender members including top 10 US banks.</div></div></div>
+    <div style="display:flex;gap:.9rem;padding:.85rem 0;align-items:flex-start"><div style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;color:var(--blue);opacity:.4;min-width:44px">07</div><div><div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:.2rem">Full enterprise security stack</div><div style="font-size:.78rem;color:var(--text2);line-height:1.6">SOC 2, PCI DSS, ISO 27001, GDPR in one vendor removes procurement objections from regulated institutions — the security review that kills deals with smaller competitors doesn't apply here.</div></div></div>
   </div>
 </div>
 
-<!-- MARKET INTELLIGENCE - COMPREHENSIVE -->
-<div id="market" class="section">
-  <div class="page">
-    <h1 class="page-title">Market Intelligence</h1>
-    <p class="page-sub">Complete 2025-2026 market data | Sources: FTC, Deloitte, SBFE, Precedence Research, Alloy, Sumsub, LexisNexis</p>
-    
-    <div class="market-grid">
-      <div class="market-stat"><div class="market-stat-val">$20.7B</div><div class="market-stat-lbl">US MCA Market Size (2025)</div><div class="market-stat-src">Precedence Research</div></div>
-      <div class="market-stat green"><div class="market-stat-val">7.3%</div><div class="market-stat-lbl">MCA CAGR (2025-2035)</div><div class="market-stat-src">Precedence Research</div></div>
-      <div class="market-stat"><div class="market-stat-val">$41.8B</div><div class="market-stat-lbl">Projected MCA by 2035</div><div class="market-stat-src">Precedence Research</div></div>
-      <div class="market-stat purple"><div class="market-stat-val">140+</div><div class="market-stat-lbl">SBFE Members (Top 10 US Banks)</div><div class="market-stat-src">SBFE / bluCognition Partnership</div></div>
+<!-- ════════════ PITCH BUILDER ════════════ -->
+<div id="tab-pitch" class="tab-panel">
+  <h1 class="page-title">Pitch Builder</h1>
+  <p class="page-sub">Generate a custom pitch for any prospect type and use case</p>
+  <div class="pb-form">
+    <div class="pb-grid">
+      <div class="pb-field"><label>Prospect Type</label><select id="p_type"><option value="mca">MCA / SMB Lender</option><option value="bank">Community / Regional Bank</option><option value="mortgage">Mortgage Originator</option><option value="processor">Merchant Processor / BNPL</option><option value="india">India / LatAm NBFC</option></select></div>
+      <div class="pb-field"><label>Primary Pain Point</label><select id="p_pain"><option value="manual">Manual review too slow</option><option value="fraud">Fraud losses increasing</option><option value="cost">Underwriting cost too high</option><option value="scale">Can't scale without hiring</option><option value="intl">Need non-English support</option></select></div>
+      <div class="pb-field"><label>Lead Product</label><select id="p_product"><option value="blusense">bluSense (analytics)</option><option value="fraudlens">FraudLens (fraud)</option><option value="both">Both products</option><option value="managed">Managed services</option></select></div>
+      <div class="pb-field"><label>Competitor Mentioned</label><select id="p_comp"><option value="none">None mentioned</option><option value="ocrolus">Ocrolus</option><option value="inscribe">Inscribe</option><option value="plaid">Plaid / MX</option><option value="internal">Manual / internal</option></select></div>
     </div>
+    <button class="gen-btn" onclick="buildPitch()">⚡ Generate Pitch</button>
+  </div>
+  <div class="pitch-out" id="pitchOut">
+    <div style="font-family:'Syne',sans-serif;font-size:.95rem;font-weight:700;margin-bottom:1rem" id="pitchTitle"></div>
+    <div class="pitch-block"><h4>Opening Hook <button class="copy-btn" onclick="copyEl('p_hook')">Copy</button></h4><p id="p_hook"></p></div>
+    <div class="pitch-block"><h4>Problem Statement <button class="copy-btn" onclick="copyEl('p_prob')">Copy</button></h4><p id="p_prob"></p></div>
+    <div class="pitch-block"><h4>Solution Pitch <button class="copy-btn" onclick="copyEl('p_sol')">Copy</button></h4><p id="p_sol"></p></div>
+    <div class="pitch-block"><h4>Competitive Differentiator <button class="copy-btn" onclick="copyEl('p_diff')">Copy</button></h4><p id="p_diff"></p></div>
+    <div class="pitch-block"><h4>Proof Point <button class="copy-btn" onclick="copyEl('p_proof')">Copy</button></h4><p id="p_proof"></p></div>
+    <div class="pitch-block"><h4>Call to Action <button class="copy-btn" onclick="copyEl('p_cta')">Copy</button></h4><p id="p_cta"></p></div>
+  </div>
+</div>
 
-    <div class="market-grid">
-      <div class="market-stat red"><div class="market-stat-val">311%</div><div class="market-stat-lbl">Synthetic Document Fraud Surge (Q1'24→Q1'25)</div><div class="market-stat-src">Sumsub 2025 Fraud Report</div></div>
-      <div class="market-stat red"><div class="market-stat-val">57%</div><div class="market-stat-lbl">FIs Lost >$500K to Fraud (past 12 mo)</div><div class="market-stat-src">Alloy State of Fraud 2024</div></div>
-      <div class="market-stat red"><div class="market-stat-val">$12.5B</div><div class="market-stat-lbl">Consumer Fraud Losses 2024 (+25% YoY)</div><div class="market-stat-src">FTC 2025</div></div>
-      <div class="market-stat red"><div class="market-stat-val">$4.41</div><div class="market-stat-lbl">True Cost per $1 Fraud Loss</div><div class="market-stat-src">LexisNexis True Cost of Fraud 2024</div></div>
+<!-- ════════════ LENDING MARKET ════════════ -->
+<div id="tab-lending" class="tab-panel">
+  <h1 class="page-title">US Commercial Lending Market</h1>
+  <p class="page-sub">The total addressable market bluCognition operates in — use these numbers to anchor the size of the opportunity</p>
+  <div class="grid4">
+    <div class="stat-card blue"><div class="stat-val blue">$276.6B</div><div class="stat-lbl">Bank small business loans (2024)</div><div class="stat-src">FDIC / CRA data, 2024</div></div>
+    <div class="stat-card blue"><div class="stat-val blue">$349.6B</div><div class="stat-lbl">US SB loan market projected 2033</div><div class="stat-src">Allied Market Research</div></div>
+    <div class="stat-card green"><div class="stat-val green">$45B</div><div class="stat-lbl">SBA guarantees in FY2025</div><div class="stat-src">SBA Monthly Loan Reports</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">13.4%</div><div class="stat-lbl">SB lending volume growth Q3 2025</div><div class="stat-src">Crestmont Capital, 2025</div></div>
+    <div class="stat-card green"><div class="stat-val green">42%</div><div class="stat-lbl">Alternative lender market share (2024)</div><div class="stat-src">Federal Reserve SBCS, 2024</div></div>
+    <div class="stat-card red"><div class="stat-val red">13%</div><div class="stat-lbl">Big bank approval rate for SB loans</div><div class="stat-src">Crestmont Capital, 2025</div></div>
+    <div class="stat-card blue"><div class="stat-val blue">$1.29T</div><div class="stat-lbl">Global alternative financing market (2025)</div><div class="stat-src">Multiple market reports</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">37%</div><div class="stat-lbl">SMBs that applied for financing (2023)</div><div class="stat-src">Federal Reserve SBCS</div></div>
+  </div>
+  <div class="section-head">Lender Approval Rate Comparison <div class="sh-line"></div></div>
+  <div class="card" style="padding:1.2rem"><div class="bar-chart">
+    <div class="bar-row"><span class="bar-lbl">CDFIs</span><div class="bar-track"><div class="bar-fill" style="width:80%;background:#10b981">~80%</div></div><span class="bar-num">~80%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Alternative Online Lenders</span><div class="bar-track"><div class="bar-fill" style="width:72%;background:#3b82f6">72%</div></div><span class="bar-num">72%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Credit Unions</span><div class="bar-track"><div class="bar-fill" style="width:76%;background:#06b6d4">76%</div></div><span class="bar-num">76%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Small Banks</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:#8b5cf6">75%</div></div><span class="bar-num">75%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Large Banks</span><div class="bar-track"><div class="bar-fill" style="width:13%;background:#ef4444">13%</div></div><span class="bar-num">13%</span></div>
+  </div></div>
+  <div class="insight green" style="margin-top:.9rem"><strong>Why alternative lenders win:</strong> Online lenders approve at 5.5× the rate of large banks. They use cash flow-based underwriting — bank statements — rather than relying solely on credit scores. This is exactly where bluSense's &lt;30 second automated analysis creates a decisive competitive advantage.</div>
+  <div class="section-head" style="margin-top:1.25rem">Loan Size Distribution <div class="sh-line"></div></div>
+  <div class="grid2">
+    <div class="card"><div class="card-title">Most common loan ranges</div><div class="card-body">60% of all applications are for $100,000 or less. Most common range: $10,000–$99,999. Median for businesses with 1–4 employees: $50,000. Median SBA 7(a): $150,000–$250,000.<br><br>bluSense's sweet spot: automating underwriting for advances under $150K where speed is most critical.</div></div>
+    <div class="card"><div class="card-title">Average loan by lender type</div><div class="card-body">Large bank average: $593,000 (skewed by commercial)<br>Small bank average: $146,000<br>SBA 7(a) average FY2023: $479,685<br>MCA typical first advance: $20,000–$80,000<br>MCA repeat borrower median: ~$50,000</div></div>
+    <div class="card"><div class="card-title">Speed advantage matters</div><div class="card-body">Online lenders: 1–3 days to fund<br>Community banks: 2–4 weeks<br>SBA loans: 30–90 days<br><br>Small businesses prioritize speed. bluSense's &lt;30 sec statement processing enables same-day decisions that traditional lenders simply cannot match.</div></div>
+    <div class="card"><div class="card-title">Market shift 2018→2025</div><div class="card-body">Non-bank lenders went from 25% market share in 2018 to 42% in 2024–2025. Online applications increased 5 consecutive years (Federal Reserve). API-first lending expected to hit 40% of market by 2026. This is the segment bluCognition is built for.</div></div>
+  </div>
+</div>
+
+<!-- ════════════ MCA INDUSTRY ════════════ -->
+<div id="tab-mca" class="tab-panel">
+  <h1 class="page-title">Merchant Cash Advance Industry</h1>
+  <p class="page-sub">The core market segment for bluSense — use these stats in every MCA prospect conversation</p>
+  <div class="grid4">
+    <div class="stat-card blue"><div class="stat-val blue">$20.7B</div><div class="stat-lbl">US MCA market size (2025)</div><div class="stat-src">Precedence Research, 2026</div></div>
+    <div class="stat-card green"><div class="stat-val green">7.3%</div><div class="stat-lbl">Market CAGR 2026–2035</div><div class="stat-src">Precedence Research, 2026</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">$41.8B</div><div class="stat-lbl">Projected market by 2035</div><div class="stat-src">Precedence Research, 2026</div></div>
+    <div class="stat-card blue"><div class="stat-val blue">500+</div><div class="stat-lbl">MCA providers operating globally</div><div class="stat-src">360 Research Reports, 2025</div></div>
+    <div class="stat-card red"><div class="stat-val red">15–20%</div><div class="stat-lbl">MCA default/non-completion rate</div><div class="stat-src">Fed Reserve NY / industry surveys</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">84%</div><div class="stat-lbl">MCA approval rate (vs 13% big banks)</div><div class="stat-src">Federal Reserve, 2020</div></div>
+    <div class="stat-card blue"><div class="stat-val blue">18%</div><div class="stat-lbl">MCA share of non-bank alt lending</div><div class="stat-src">360 Research Reports</div></div>
+    <div class="stat-card green"><div class="stat-val green">$3T+</div><div class="stat-lbl">Annual card volume MCA providers monitor</div><div class="stat-src">360 Research Reports</div></div>
+  </div>
+  <div class="section-head">MCA Volume by Industry Vertical <div class="sh-line"></div></div>
+  <div class="card" style="padding:1.2rem"><div class="bar-chart">
+    <div class="bar-row"><span class="bar-lbl">Retail & E-commerce</span><div class="bar-track"><div class="bar-fill" style="width:40%;background:#3b82f6">40%</div></div><span class="bar-num">~40%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Restaurants & Food Service</span><div class="bar-track"><div class="bar-fill" style="width:20%;background:#10b981">20%</div></div><span class="bar-num">~20%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Healthcare & Medical</span><div class="bar-track"><div class="bar-fill" style="width:15%;background:#8b5cf6">15%</div></div><span class="bar-num">~15%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Travel & Hospitality</span><div class="bar-track"><div class="bar-fill" style="width:10%;background:#f59e0b">10%</div></div><span class="bar-num">~10%</span></div>
+    <div class="bar-row"><span class="bar-lbl">Manufacturing & Services</span><div class="bar-track"><div class="bar-fill" style="width:9%;background:#06b6d4">9%</div></div><span class="bar-num">~9%</span></div>
+    <div class="bar-row"><span class="bar-lbl">IT & Telecom</span><div class="bar-track"><div class="bar-fill" style="width:6%;background:#ec4899">6%</div></div><span class="bar-num">~6%</span></div>
+  </div></div>
+  <div class="section-head" style="margin-top:1.25rem">Advance Size & Structure <div class="sh-line"></div></div>
+  <div class="grid2">
+    <div class="card"><div class="card-title">Typical advance ranges</div><div class="card-body">$5,000–$500,000 total range · First-time advances typically $20,000–$80,000 · Repeat borrower median: ~$50,000 · Sizing: 1.0–1.5× monthly gross revenue · Large businesses (retail/healthcare): $150K–$500K</div></div>
+    <div class="card"><div class="card-title">Repayment structure</div><div class="card-body">Factor rates: 1.1×–1.5× (effective APR 40–150%+) · Holdback rate: 5–20% of daily card volume · Repayment cycle: typically 6–9 months · ACH automated deductions most common · Stacked MCAs: 3–5× higher default risk</div></div>
+    <div class="card"><div class="card-title">Default rate context</div><div class="card-body">MCA: 15–20% non-completion rate · SBA loans: 1–2% default rate · Conventional bank SB loans: 3–7% · Key insight: high MCA defaults stem from poor cash flow assessment at origination — exactly what bluSense fixes.</div></div>
+    <div class="card"><div class="card-title">bluCognition's MCA sweet spot</div><div class="card-body">Advances under $150K where automated statement analysis is most impactful. A client reported: "bluSense automated our underwriting decisions for lines under $150K using cash flow analysis. This improved our credit performance in acquisitions."</div></div>
+  </div>
+</div>
+
+<!-- ════════════ FRAUD LANDSCAPE ════════════ -->
+<div id="tab-fraud" class="tab-panel">
+  <h1 class="page-title">Document Fraud Landscape</h1>
+  <p class="page-sub">The threat environment that makes FraudLens a critical purchase — not a nice-to-have. Use these numbers to create urgency.</p>
+  <div class="grid4">
+    <div class="stat-card red"><div class="stat-val red">311%</div><div class="stat-lbl">Surge in synthetic doc fraud Q1 2024→Q1 2025</div><div class="stat-src">Sumsub, 2025</div></div>
+    <div class="stat-card red"><div class="stat-val red">$12.5B</div><div class="stat-lbl">Consumer fraud losses 2024 (+25% YoY)</div><div class="stat-src">FTC, March 2025</div></div>
+    <div class="stat-card red"><div class="stat-val red">$40B</div><div class="stat-lbl">Projected US bank fraud losses from GenAI by 2027</div><div class="stat-src">Deloitte Center for Financial Services</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">$4.41</div><div class="stat-lbl">True cost for every $1 in fraud losses</div><div class="stat-src">LexisNexis True Cost of Fraud, 2024</div></div>
+    <div class="stat-card red"><div class="stat-val red">2,000%+</div><div class="stat-lbl">Deepfake fraud attempts increase over 3 years</div><div class="stat-src">BIIA.com, 2026</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">57%</div><div class="stat-lbl">Financial orgs lost $500K+ to fraud in past year</div><div class="stat-src">Alloy State of Fraud, 2024</div></div>
+    <div class="stat-card red"><div class="stat-val red">70%</div><div class="stat-lbl">Enterprise banks reporting fraud increase (12 months)</div><div class="stat-src">Alloy State of Fraud, 2025</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">$3.3B</div><div class="stat-lbl">US lender exposure to synthetic identity new accounts</div><div class="stat-src">BIIA.com, 2026</div></div>
+    <div class="stat-card red"><div class="stat-val red">8M</div><div class="stat-lbl">Deepfake files created in 2025 (vs 500K in 2023)</div><div class="stat-src">BIIA.com, 2026</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">60%</div><div class="stat-lbl">Rise in false identity credit applications (2023→2024)</div><div class="stat-src">Experian, March 2025</div></div>
+    <div class="stat-card red"><div class="stat-val red">8.3%</div><div class="stat-lbl">Digital account creations flagged as suspicious (H1 2025)</div><div class="stat-src">BIIA.com, 2026</div></div>
+    <div class="stat-card purple"><div class="stat-val purple">$23B</div><div class="stat-lbl">Projected synthetic identity fraud losses US by 2030</div><div class="stat-src">BIIA.com / industry projections</div></div>
+  </div>
+  <div class="insight red"><strong>The GenAI inflection point:</strong> Fraudsters can now create entirely synthetic bank statements, pay stubs, invoices, and tax records using ChatGPT, Stable Diffusion, and DALL-E — with realistic formatting, logos, and signatures designed to bypass traditional OCR tools. "Historically synthetic identity fraud was a time-consuming process. Now with AI at their fingertips, the effort to create or steal identity is vastly reduced." — Experian, 2025</div>
+  <div class="section-head" style="margin-top:1.25rem">Fraud by Document Type Targeted <div class="sh-line"></div></div>
+  <div class="card" style="padding:1.2rem"><div class="bar-chart">
+    <div class="bar-row"><span class="bar-lbl">Bank Statements</span><div class="bar-track"><div class="bar-fill" style="width:85%;background:#ef4444">Primary target</div></div><span class="bar-num">Primary</span></div>
+    <div class="bar-row"><span class="bar-lbl">Pay Stubs</span><div class="bar-track"><div class="bar-fill" style="width:75%;background:#f59e0b">High volume</div></div><span class="bar-num">High</span></div>
+    <div class="bar-row"><span class="bar-lbl">Tax Returns</span><div class="bar-track"><div class="bar-fill" style="width:65%;background:#f59e0b">High volume</div></div><span class="bar-num">High</span></div>
+    <div class="bar-row"><span class="bar-lbl">Identity Documents</span><div class="bar-track"><div class="bar-fill" style="width:70%;background:#8b5cf6">KYC/KYB risk</div></div><span class="bar-num">High</span></div>
+    <div class="bar-row"><span class="bar-lbl">Invoices & Receipts</span><div class="bar-track"><div class="bar-fill" style="width:45%;background:#3b82f6">Growing</div></div><span class="bar-num">Medium</span></div>
+    <div class="bar-row"><span class="bar-lbl">Utility Bills</span><div class="bar-track"><div class="bar-fill" style="width:35%;background:#06b6d4">Common in KYC</div></div><span class="bar-num">Medium</span></div>
+  </div></div>
+  <div class="section-head" style="margin-top:1.25rem">FraudLens — What It Catches That Others Miss <div class="sh-line"></div></div>
+  <div class="grid2">
+    <div class="card"><div class="card-title">16+ Forensic Indicators</div><div class="card-body"><span class="tag tag-red">X-ray vision — PDF recovery</span><span class="tag tag-red">Font anomaly detection</span><span class="tag tag-red">Metadata forensics</span><span class="tag tag-red">3rd-party editor flags</span><span class="tag tag-red">Template fingerprinting</span><span class="tag tag-red">Copycat image matching</span><span class="tag tag-red">Brush/pixel detection</span><span class="tag tag-red">Flattened PDF check</span><span class="tag tag-red">Mismatched dates</span><span class="tag tag-red">Overlaid text detection</span><span class="tag tag-red">Masked text</span><span class="tag tag-red">PDF alignment anomaly</span></div></div>
+    <div class="card"><div class="card-title">What AI-generated documents look like to FraudLens</div><div class="card-body">AI-generated statements lack original source files or trails. FraudLens detects: synthetic formatting inconsistencies, font fingerprints from AI tools (ChatGPT, Stable Diffusion, DALL-E), metadata showing no originating bank software, pixel-level distortions from image manipulation, and template patterns not matching any genuine bank format in its 10M+ document database.</div></div>
+    <div class="card"><div class="card-title">Why traditional OCR tools fail</div><div class="card-body">OCR reads what's on the page — it doesn't question whether the page itself is authentic. A perfectly formatted AI-generated bank statement with plausible transaction history will pass any OCR check. FraudLens examines the document's forensic DNA: its file history, metadata, pixel layers, and structural patterns — not just its content.</div></div>
+    <div class="card"><div class="card-title">Real-world impact at clients</div><div class="card-body">"The FraudLens tool helped us reduce first-party fraud in real time by identifying altered documents in our underwriting process." — FraudLens Client<br><br>FinCEN officially warned financial institutions about the growing use of deepfake media circumventing KYC controls (Nov 2024). FraudLens is purpose-built for exactly this threat vector.</div></div>
+  </div>
+</div>
+
+<!-- ════════════ SBFE PARTNERSHIP ════════════ -->
+<div id="tab-sbfe" class="tab-panel">
+  <h1 class="page-title">SBFE Partnership</h1>
+  <p class="page-sub">Announced February 3, 2025 — the single most important competitive development in bluCognition's history</p>
+  <div class="insight"><strong>Unique position:</strong> bluCognition is now the only provider in the world that combines real-time bank transaction AI with SBFE commercial bureau data. It is listed as an official SBFE data partner alongside Dun & Bradstreet, Equifax, Experian, and LexisNexis Risk Solutions.</div>
+  <div class="grid4" style="margin-top:1rem">
+    <div class="stat-card blue"><div class="stat-val blue">140+</div><div class="stat-lbl">SBFE member lenders</div><div class="stat-src">SBFE.org, 2025</div></div>
+    <div class="stat-card blue"><div class="stat-val blue">Top 10</div><div class="stat-lbl">US commercial banks in SBFE network</div><div class="stat-src">SBFE press release, Feb 2025</div></div>
+    <div class="stat-card green"><div class="stat-val green">20+</div><div class="stat-lbl">Years of SBFE small business credit data</div><div class="stat-src">SBFE founded 2001</div></div>
+    <div class="stat-card amber"><div class="stat-val amber">Only 1</div><div class="stat-lbl">Provider combining transaction AI + SBFE bureau data</div><div class="stat-src">SBFE.org licensees page</div></div>
+  </div>
+  <div class="section-head" style="margin-top:1rem">What the Partnership Delivers <div class="sh-line"></div></div>
+  <div class="grid2">
+    <div class="card"><div class="card-title">What SBFE brings</div><div class="card-body">140+ lender members including top 10 US commercial banks. 20+ year repository of small business credit payment performance data. Trusted by Dun & Bradstreet, Equifax, Experian, and LexisNexis as their primary SBFE data source. "Give to get" model — only members who contribute data can access risk products.</div></div>
+    <div class="card"><div class="card-title">What bluCognition adds</div><div class="card-body">Real-time bank transaction AI layered on top of SBFE's historical credit data. Combined integrated view: past payment performance + live cash flow health + transaction intelligence. Faster, more accurate credit decisions than either source alone. "Integrated view of any borrower" — bluCognition CEO Sangarsh Nigam, Feb 2025.</div></div>
+    <div class="card"><div class="card-title">Sales angle: use in every deal</div><div class="card-body">No competitor can replicate this position. Ocrolus, Inscribe, and Resistant AI are not SBFE partners. When a community bank, MCA lender, or credit union asks "what makes you different?" — the SBFE partnership is the single most defensible answer. It took years to establish and cannot be replicated overnight.</div></div>
+    <div class="card"><div class="card-title">Distribution opportunity</div><div class="card-body">SBFE's 140+ members include lenders who already contribute and consume bureau data. Every SBFE member is a potential bluCognition prospect — they're already participating in the data ecosystem and understand the value of combining data sources for better credit decisions.</div></div>
+  </div>
+  <div class="section-head" style="margin-top:1rem">Company Timeline <div class="sh-line"></div></div>
+  <div class="card" style="padding:1.25rem 1.5rem">
+    <div class="timeline">
+      <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-date">Founded</div><div class="tl-body"><h4>bluCognition launched</h4><p>Focused on AI-powered bank transaction analytics for commercial lenders. bluSense as core product.</p></div></div>
+      <div class="tl-item"><div class="tl-dot blue"></div><div class="tl-date">Early growth</div><div class="tl-body"><h4>Tier-1 client base established</h4><p>WEX, Fiserv, PayPal, American Express, Stripe, Zip, Brex, Lendio, Credibly, Charter, Covalto onboarded.</p></div></div>
+      <div class="tl-item"><div class="tl-dot green"></div><div class="tl-date">FraudLens</div><div class="tl-body"><h4>FraudLens launched</h4><p>16+ forensic indicators. Trained on 10M+ documents. Adds document tampering detection to the core analytics stack.</p></div></div>
+      <div class="tl-item"><div class="tl-dot amber"></div><div class="tl-date">Feb 2025</div><div class="tl-body"><h4>SBFE Strategic Partnership — game changer</h4><p>Named as official SBFE data partner alongside D&B, Equifax, Experian, and LexisNexis. Only provider combining real-time bank transaction AI + SBFE commercial bureau data. Access to 140+ lender network.</p></div></div>
+      <div class="tl-item"><div class="tl-dot green"></div><div class="tl-date">2025–26</div><div class="tl-body"><h4>Expansion phase</h4><p>Scaling to community banks, mortgage lenders, and international markets (LatAm via Covalto, India/SEA via global bank format support).</p></div></div>
     </div>
+  </div>
+</div>
 
-    <div class="market-grid">
-      <div class="market-stat amber"><div class="market-stat-val">$40B</div><div class="market-stat-lbl">Projected GenAI Bank Fraud by 2027</div><div class="market-stat-src">Deloitte Center for Financial Services</div></div>
-      <div class="market-stat amber"><div class="market-stat-val">70%</div><div class="market-stat-lbl">Enterprise Banks Reporting Fraud Increase</div><div class="market-stat-src">Alloy State of Fraud 2025</div></div>
-      <div class="market-stat green"><div class="market-stat-val">75%</div><div class="market-stat-lbl">FIs Investing in Identity Risk Solutions</div><div class="market-stat-src">Alloy 2024</div></div>
-      <div class="market-stat"><div class="market-stat-val">15-20%</div><div class="market-stat-lbl">MCA Default Rate (vs 1-2% SBA Loans)</div><div class="market-stat-src">NY Fed / Industry Surveys</div></div>
+<!-- ════════════ ROI CALCULATOR ════════════ -->
+<div id="tab-roi" class="tab-panel">
+  <h1 class="page-title">ROI Calculator</h1>
+  <p class="page-sub">Enter a prospect's numbers during a demo call — the ROI appears live. This single tool can close deals.</p>
+  <div class="roi-wrap">
+    <div class="card" style="padding:1.2rem">
+      <div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:1rem">Your Lending Portfolio</div>
+      <div class="roi-field"><label>Monthly statement volume (apps)</label><input type="number" id="ri_vol" value="500" min="10" oninput="calcROI()"></div>
+      <div class="roi-field"><label>Average advance / loan size ($)</label><input type="number" id="ri_avg" value="50000" min="1000" oninput="calcROI()"></div>
+      <div class="roi-field"><label>Current manual review cost per app ($)</label><input type="number" id="ri_cost" value="35" min="1" oninput="calcROI()"></div>
+      <div class="roi-field"><label>Current turnaround time (hours)</label><input type="number" id="ri_time" value="24" min="0.5" step="0.5" oninput="calcROI()"></div>
+      <div class="roi-field"><label>Estimated fraud loss rate (%)</label><input type="number" id="ri_fraud" value="1.5" min="0.1" max="20" step="0.1" oninput="calcROI()"></div>
+      <div class="roi-field"><label>Segment type</label><select id="ri_seg" onchange="calcROI()"><option value="mca">MCA / SMB Lender</option><option value="bank">Community / Regional Bank</option><option value="mortgage">Mortgage Originator</option><option value="processor">Merchant Processor</option></select></div>
     </div>
-
-    <div class="card">
-      <div class="card-title">📊 MCA Volume by Industry Vertical</div>
-      <div class="bar-chart" id="industryBars"></div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">🏦 Typical Advance Ranges & Underwriting Metrics</div>
-      <div class="grid2">
-        <div><div class="stat-lbl">Standard Advance Range</div><div class="stat-val" style="font-size:1rem;">$5,000 – $500,000</div><div>Most common first-time: $20,000–$80,000</div></div>
-        <div><div class="stat-lbl">Revenue-Based Sizing</div><div class="stat-val" style="font-size:1rem;">1.0–1.5× Monthly Revenue</div><div>Strong businesses qualify for $150K–$500K</div></div>
-        <div><div class="stat-lbl">Repayment Cycle</div><div class="stat-val" style="font-size:1rem;">3–18 Months</div><div>Most common: 6–9 months at 1.2–1.3× factor rate</div></div>
+    <div>
+      <div class="card" style="padding:1.2rem;margin-bottom:.9rem">
+        <div style="font-family:'Syne',sans-serif;font-size:.9rem;font-weight:700;margin-bottom:1rem">Projected Impact</div>
+        <div class="roi-result-row"><span class="roi-lbl">Monthly processing cost saved</span><span class="roi-val green" id="ro_cmo">—</span></div>
+        <div class="roi-result-row"><span class="roi-lbl">Annual processing cost saved</span><span class="roi-val green" id="ro_cyr">—</span></div>
+        <div class="roi-result-row"><span class="roi-lbl">Annual fraud losses prevented</span><span class="roi-val green" id="ro_fraud">—</span></div>
+        <div class="roi-result-row"><span class="roi-lbl">Extra apps/mo at same headcount</span><span class="roi-val blue" id="ro_apps">—</span></div>
+        <div class="roi-result-row"><span class="roi-lbl">Added revenue potential (monthly)</span><span class="roi-val blue" id="ro_rev">—</span></div>
+        <div class="roi-result-row" style="border-bottom:2px solid var(--blue);padding-bottom:.85rem"><span class="roi-lbl" style="font-weight:700;color:var(--text)">Total annual value</span><span class="roi-val blue" id="ro_total" style="font-size:1.3rem">—</span></div>
+        <div class="roi-result-row"><span class="roi-lbl">Est. bluCognition annual cost</span><span class="roi-val amber" id="ro_cost">—</span></div>
+        <div class="roi-result-row"><span class="roi-lbl">Net ROI multiple</span><span class="roi-val green" id="ro_roi" style="font-size:1.4rem">—</span></div>
       </div>
-    </div>
-
-    <div class="card" style="border-left: 4px solid var(--blue);">
-      <div class="card-title">🚀 bluCognition's Unique Position — SBFE Partnership (Feb 2025)</div>
-      <div class="card-body">Only provider in the world merging <strong>real-time bank transaction AI</strong> with SBFE commercial bureau data. Listed alongside Dun & Bradstreet, Equifax, Experian, LexisNexis Risk Solutions. 140+ lender members including top 10 US commercial banks.</div>
-    </div>
-
-    <div class="card">
-      <div class="card-title">📈 Key Market Trends Driving Demand</div>
-      <div class="grid2">
-        <div><span class="tag">📱 Embedded Lending Growth</span> BNPL and embedded credit projected to reach $185B by 2027</div>
-        <div><span class="tag">🤖 GenAI Fraud Acceleration</span> 311% surge in AI-generated synthetic documents</div>
-        <div><span class="tag">🏛️ Regulatory Pressure</span> Increased scrutiny on underwriting documentation</div>
-        <div><span class="tag">🌍 International Expansion</span> Non-English markets: India NBFCs process 2M+ statements/month</div>
+      <div class="insight green" id="ro_summary"></div>
+      <div class="card" style="margin-top:.9rem;padding:1rem 1.2rem">
+        <div class="card-title" style="margin-bottom:.4rem">Client proof points</div>
+        <div class="card-body">💬 "bluSense automated our underwriting decisions for lines under $150K — improved credit performance in acquisitions." — bluSense client<br><br>💬 "FraudLens helped us reduce first-party fraud in real time." — FraudLens client<br><br>💬 "Half the cost with short turnaround vs in-house." — Managed Services client</div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ROI CALCULATOR - REAL TIME FIXED -->
-<div id="roi" class="section">
-  <div class="page">
-    <h1 class="page-title">Portfolio ROI Calculator</h1>
-    <p class="page-sub">Real-time ROI calculation — update any field to see instant impact</p>
-    <div class="roi-wrap">
-      <div class="roi-inputs">
-        <h3 style="font-family:Syne; margin-bottom:1rem;">📈 Your Lending Portfolio</h3>
-        <div class="roi-field"><label>Monthly Application Volume</label><input type="number" id="roi_vol" value="750" oninput="calcROIRealTime()" onkeyup="calcROIRealTime()"></div>
-        <div class="roi-field"><label>Average Advance / Loan Size ($)</label><input type="number" id="roi_avg" value="55000" oninput="calcROIRealTime()" onkeyup="calcROIRealTime()"></div>
-        <div class="roi-field"><label>Current Manual Review Cost per App ($)</label><input type="number" id="roi_cost" value="38" oninput="calcROIRealTime()" onkeyup="calcROIRealTime()"></div>
-        <div class="roi-field"><label>Current Fraud Loss Rate (%)</label><input type="number" id="roi_fraud" value="2.1" step="0.1" oninput="calcROIRealTime()" onkeyup="calcROIRealTime()"></div>
-        <div class="roi-field"><label>Annual Portfolio Size ($ Million)</label><input type="number" id="roi_portfolio_m" value="45" oninput="calcROIRealTime()" onkeyup="calcROIRealTime()"></div>
-        <div class="roi-field"><label>Lender Segment</label><select id="roi_seg" onchange="calcROIRealTime()"><option value="mca">MCA / SMB Lender</option><option value="bank">Community / Regional Bank</option><option value="mortgage">Mortgage Originator</option></select></div>
-      </div>
-      <div class="roi-results">
-        <h3 style="font-family:Syne; margin-bottom:1rem;">💰 Projected Annual Impact</h3>
-        <div class="roi-result-row"><span>Annual Processing Cost Saved</span><span class="roi-result-val green" id="r_cost_annual">—</span></div>
-        <div class="roi-result-row"><span>Annual Fraud Losses Prevented</span><span class="roi-result-val green" id="r_fraud_saved">—</span></div>
-        <div class="roi-result-row"><span>Additional Revenue from Capacity (Annual)</span><span class="roi-result-val blue" id="r_revenue_annual">—</span></div>
-        <div class="roi-result-row" style="border-bottom: 2px solid var(--blue);"><span><strong>Total Annual Value Created</strong></span><span class="roi-result-val blue" id="r_total" style="font-size:1.3rem;">—</span></div>
-        <div class="roi-result-row"><span>Estimated bluCognition Annual Cost</span><span class="roi-result-val" id="r_bc_cost">—</span></div>
-        <div class="roi-result-row"><span><strong>Net ROI Multiple</strong></span><span class="roi-result-val green" id="r_roi_x" style="font-size:1.4rem;">—</span></div>
-        <div class="roi-summary" id="roi_summary"></div>
-        <div style="margin-top:0.8rem; font-size:0.7rem; color:var(--text3);">*Assumptions: 75% labor cost reduction, 62% fraud reduction (client avg), 30% capacity uplift converted to new apps at 1.5% margin</div>
-      </div>
+<!-- ════════════ SALESMIND: COMPANIES ════════════ -->
+<div id="tab-companies" class="tab-panel">
+  <h1 class="page-title">SalesMind Pro</h1>
+  <p class="page-sub">India B2B Lead Intelligence — 5,000+ verified company contacts with HR & C-level decision makers</p>
+  <div class="scrape-row">
+    <button class="btn btn-blue" id="scrapeBtn" onclick="runScrape()"><span id="scrapeIco">⚡</span> <span id="scrapeLbl">Scrape 5,000+ Companies</span></button>
+    <div class="prog-track"><div class="prog-fill" id="progFill"></div></div>
+    <div class="scrape-status" id="scrapeStatus">✓ Ready — 15 data sources connected</div>
+  </div>
+  <div class="sm-controls">
+    <select id="secFilter" onchange="applyFilters()"><option value="all">All Sectors</option><option value="banking">🏦 Banking</option><option value="fintech">🚀 FinTech</option><option value="edtech">📚 EdTech</option><option value="ecommerce">🛒 E-commerce</option><option value="saas">💻 SaaS</option><option value="healthtech">🏥 HealthTech</option></select>
+    <select id="szFilter" onchange="applyFilters()"><option value="all">All Sizes</option><option value="startup">Startup (≤500)</option><option value="smb">SMB (501–2000)</option><option value="enterprise">Enterprise (2001+)</option></select>
+    <select id="stFilter" onchange="applyFilters()"><option value="all">All States</option><option value="Maharashtra">Maharashtra</option><option value="Karnataka">Karnataka</option><option value="Delhi NCR">Delhi NCR</option><option value="Tamil Nadu">Tamil Nadu</option><option value="Telangana">Telangana</option></select>
+    <input type="text" id="srchInput" placeholder="Search company…" oninput="applyFilters()" style="width:180px">
+  </div>
+  <div class="sm-seg-tabs" style="margin-bottom:.85rem">
+    <button class="seg-tab active" onclick="switchSeg('all',this)">All Companies</button>
+    <button class="seg-tab" onclick="switchSeg('startup',this)">Startups (≤500)</button>
+    <button class="seg-tab" onclick="switchSeg('smb',this)">SMBs (501–2000)</button>
+    <button class="seg-tab" onclick="switchSeg('enterprise',this)">Enterprises (2001+)</button>
+  </div>
+  <div class="sm-metrics" id="smMetrics"></div>
+  <div class="sm-view-tabs">
+    <button class="sm-vtab active" onclick="switchView('companies',this)">🏢 Companies</button>
+    <button class="sm-vtab" onclick="switchView('pl',this)">📋 Pipeline</button>
+    <button class="sm-vtab" onclick="switchView('charts',this)">📈 Analytics</button>
+  </div>
+  <div id="vw-companies">
+    <div class="pg-bar"><div class="pg-info" id="pgInfo">Loading…</div><div class="pg-btns" id="pgBtns"></div></div>
+    <div class="co-grid" id="coGrid"></div>
+    <div class="pg-bar" style="margin-top:.85rem"><div></div><div class="pg-btns" id="pgBtnsBot"></div></div>
+  </div>
+  <div id="vw-pl" style="display:none">
+    <div class="pl-wrap"><div class="pl-toolbar"><span style="font-size:.8rem;font-weight:700">Pipeline</span><button class="btn btn-ghost" style="font-size:.7rem" onclick="exportCSV()">⬇ Export CSV</button></div><div style="overflow-x:auto"><div id="plContainer"></div></div></div>
+  </div>
+  <div id="vw-charts" style="display:none">
+    <div class="grid2" style="margin-top:.25rem">
+      <div class="chart-card"><h3>Sector Distribution</h3><canvas id="cSec"></canvas></div>
+      <div class="chart-card"><h3>Company Size</h3><canvas id="cSz"></canvas></div>
+      <div class="chart-card"><h3>Pipeline Stages</h3><canvas id="cPipe"></canvas></div>
     </div>
   </div>
 </div>
 
-<!-- Company Intel (Page 1 full, Page 2+ demo) -->
-<div id="intel" class="section">
-  <div class="page">
-    <h1 class="page-title">Company Intelligence</h1>
-    <p class="page-sub">LinkedIn-scraped B2B data | Page 1: Full verified contacts | Page 2+: Demo preview</p>
-    <div class="card" style="padding:1rem;">
-      <div class="filters-row">
-        <div class="filter-group"><label>Sector</label><select id="sectorIntel" onchange="applyIntelFilters()"><option value="all">All</option><option value="banking">🏦 Banking</option><option value="fintech">🚀 FinTech</option><option value="saas">💻 SaaS</option></select></div>
-        <div class="filter-group"><label>Size</label><select id="sizeIntel" onchange="applyIntelFilters()"><option value="all">All</option><option value="startup">Startup (≤500)</option><option value="smb">SMB (501-2000)</option></select></div>
-        <div class="filter-group"><label>State</label><select id="stateIntel" onchange="applyIntelFilters()"><option value="all">All</option><option value="Maharashtra">Maharashtra</option><option value="Karnataka">Karnataka</option></select></div>
-        <div class="filter-group"><label>Search</label><input type="text" id="searchIntel" placeholder="Company name" oninput="applyIntelFilters()"></div>
-      </div>
+<!-- pipeline + analytics tabs redirect to companies tab view -->
+<div id="tab-pipeline" class="tab-panel">
+  <h1 class="page-title">Pipeline</h1>
+  <p class="page-sub">Your saved sales contacts — managed from SalesMind Pro</p>
+  <div class="pl-wrap"><div class="pl-toolbar"><span style="font-size:.8rem;font-weight:700">Pipeline Contacts</span><button class="btn btn-ghost" style="font-size:.7rem" onclick="exportCSV()">⬇ Export CSV</button></div><div style="overflow-x:auto"><div id="plContainer2"></div></div></div>
+</div>
+<div id="tab-analytics" class="tab-panel">
+  <h1 class="page-title">Analytics</h1>
+  <p class="page-sub">Company data breakdown from your current SalesMind Pro view</p>
+  <div class="grid2">
+    <div class="chart-card"><h3>Sector Distribution</h3><canvas id="cSec2"></canvas></div>
+    <div class="chart-card"><h3>Company Size</h3><canvas id="cSz2"></canvas></div>
+    <div class="chart-card"><h3>Pipeline Stages</h3><canvas id="cPipe2"></canvas></div>
+  </div>
+</div>
+
+</div><!-- /page -->
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-col">
+      <img src="https://www.blucognition.com/wp-content/themes/blucognition/images/brand-footer-white.svg" alt="bluCognition" style="height:24px;width:auto;opacity:.7;margin-bottom:4px" onerror="this.style.display='none'">
+      <span>119 Oakwood Drive<br>New Providence, NJ 07974</span>
+      <a href="mailto:info@blucognition.com">info@blucognition.com</a>
     </div>
-    <div class="pagination-bar"><div id="intelPageInfo"></div><div id="intelPageBtns"></div></div>
-    <div class="company-grid" id="intelCompanyGrid"></div>
+    <div class="footer-col"><strong>Products</strong><a href="https://www.blucognition.com/bank-statement-conversion-analytics/" target="_blank">bluSense</a><a href="https://www.blucognition.com/document-fraud-detection/" target="_blank">FraudLens</a><a href="https://www.blucognition.com/data-augmentation/" target="_blank">bluData+</a></div>
+    <div class="footer-col"><strong>Company</strong><a href="https://www.blucognition.com/about/" target="_blank">About</a><a href="https://www.blucognition.com/managed-services/" target="_blank">Managed Services</a><a href="https://www.linkedin.com/company/blucognition/" target="_blank">LinkedIn</a><a href="https://www.blucognition.com/contact/" target="_blank">Contact</a></div>
+    <div class="footer-col"><strong>Certifications</strong><span>SOC 2 Type II</span><span>PCI DSS</span><span>ISO 27001-2022</span><span>GDPR</span></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 bluCognition · <a href="https://www.blucognition.com/privacy-policy/" target="_blank">Privacy Policy</a></span><span>Demo built by Gogo · <a href="mailto:your@email.com">your@email.com</a></span></div>
+</footer>
+</div><!-- /content -->
+</div><!-- /app-shell -->
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div style="font-size:2.25rem;text-align:center;margin-bottom:.85rem">👑</div>
+    <h2>Unlock Full Access</h2>
+    <p>Get verified emails, phones, and full data for all 5,000+ companies.</p>
+    <div class="modal-feats"><div class="modal-feat"><span>✓</span>Verified emails & direct phones</div><div class="modal-feat"><span>✓</span>LinkedIn profile URLs</div><div class="modal-feat"><span>✓</span>Unlimited pipeline contacts</div><div class="modal-feat"><span>✓</span>CSV export</div></div>
+    <input type="email" class="modal-input" id="mEmail" placeholder="your@company.com" oninput="clearErr()">
+    <div id="mErr" style="font-size:.7rem;color:var(--red);margin:-0.4rem 0 .6rem;display:none">Please enter a valid email</div>
+    <button class="modal-submit" onclick="subscribe()">🚀 Start Free Trial</button>
+    <button class="modal-close" onclick="closeModal()">Maybe later</button>
   </div>
 </div>
 
-<!-- Pipeline -->
-<div id="pipeline" class="section">
-  <div class="page">
-    <h1 class="page-title">Sales Pipeline</h1>
-    <div class="card"><div id="pipelineContainer" style="overflow-x:auto"></div></div>
-  </div>
-</div>
-
-<footer>© 2026 SalesMind Pro | bluCognition Intelligence — Market data from FTC, Deloitte, SBFE, Precedence Research, Alloy, Sumsub, LexisNexis</footer>
 <div class="toast" id="toast"></div>
 
 <script>
-// Theme
-function toggleTheme(){ let h=document.documentElement; let n=h.getAttribute('data-theme')==='light'?'dark':'light'; h.setAttribute('data-theme',n); localStorage.setItem('theme',n); document.getElementById('themeToggle').textContent=n==='dark'?'☀️':'🌙'; }
-(function(){ let s=localStorage.getItem('theme')||'light'; document.documentElement.setAttribute('data-theme',s); document.getElementById('themeToggle').textContent=s==='dark'?'☀️':'🌙'; })();
+// ── THEME ─────────────────────────────────────────────────────────────────
+function toggleTheme(){
+  const h=document.documentElement, next=h.getAttribute('data-theme')==='dark'?'light':'dark';
+  h.setAttribute('data-theme',next);
+  document.getElementById('themeBtn').textContent=next==='dark'?'🌙':'☀️';
+  localStorage.setItem('bc_theme',next);
+  if(activeChart) renderCharts();
+}
+(function(){
+  const s=localStorage.getItem('bc_theme')||'dark';
+  document.documentElement.setAttribute('data-theme',s);
+  document.addEventListener('DOMContentLoaded',()=>{
+    const b=document.getElementById('themeBtn');
+    if(b) b.textContent=s==='dark'?'🌙':'☀️';
+  });
+})();
 
-function show(id,el){ document.querySelectorAll('.section').forEach(s=>s.classList.remove('active')); document.querySelectorAll('.nav a').forEach(a=>a.classList.remove('active')); document.getElementById(id).classList.add('active'); el.classList.add('active'); if(id==='market') renderIndustryBars(); if(id==='roi') calcROIRealTime(); window.scrollTo({top:0}); }
-
-function renderIndustryBars(){ let data=[{label:'Retail & E-commerce',pct:40,color:'#3b82f6'},{label:'Restaurants & Food Service',pct:20,color:'#10b981'},{label:'Healthcare & Medical',pct:15,color:'#8b5cf6'},{label:'Travel & Hospitality',pct:10,color:'#f59e0b'},{label:'Manufacturing',pct:9,color:'#06b6d4'},{label:'IT & Telecom',pct:6,color:'#ec4899'}]; let el=document.getElementById('industryBars'); if(el) el.innerHTML=data.map(d=>`<div class="bar-row"><span class="bar-label">${d.label}</span><div class="bar-track"><div class="bar-fill" style="width:${d.pct}%;background:${d.color}">${d.pct}%</div></div></div>`).join(''); }
-
-function fmtMoney(n){ if(n>=1e6) return '$'+(n/1e6).toFixed(1)+'M'; if(n>=1e3) return '$'+Math.round(n/1e3)+'K'; return '$'+Math.round(n); }
-
-function calcROIRealTime(){
-  let vol=parseFloat(document.getElementById('roi_vol')?.value)||500;
-  let avg=parseFloat(document.getElementById('roi_avg')?.value)||50000;
-  let cost=parseFloat(document.getElementById('roi_cost')?.value)||35;
-  let fraudRate=parseFloat(document.getElementById('roi_fraud')?.value)||1.5;
-  let portfolioM=parseFloat(document.getElementById('roi_portfolio_m')?.value)||45;
-  let seg=document.getElementById('roi_seg')?.value||'mca';
-  let bc_annual=seg==='bank'?30000:seg==='mortgage'?24000:18000;
-  let annualCostSave=vol*cost*0.75*12;
-  let totalPortfolio=portfolioM*1e6;
-  let fraudPrevented=totalPortfolio*(fraudRate/100)*0.62;
-  let extraAppsPerMonth=Math.round(vol*0.30);
-  let annualRevenueExtra=extraAppsPerMonth*12*avg*0.015;
-  let totalAnnualValue=annualCostSave+fraudPrevented+annualRevenueExtra;
-  let roiX=totalAnnualValue/bc_annual;
-  document.getElementById('r_cost_annual').innerText=fmtMoney(annualCostSave);
-  document.getElementById('r_fraud_saved').innerText=fmtMoney(fraudPrevented);
-  document.getElementById('r_revenue_annual').innerText=fmtMoney(annualRevenueExtra);
-  document.getElementById('r_total').innerText=fmtMoney(totalAnnualValue);
-  document.getElementById('r_bc_cost').innerText='~'+fmtMoney(bc_annual);
-  document.getElementById('r_roi_x').innerHTML=roiX.toFixed(1)+'×';
-  let breakEven=Math.max(1,Math.round(bc_annual/(totalAnnualValue/12)));
-  document.getElementById('roi_summary').innerHTML=`With ${vol.toLocaleString()} apps/month, you'll save <strong>${fmtMoney(annualCostSave)}/year</strong> on operations, prevent <strong>${fmtMoney(fraudPrevented)}</strong> in fraud losses, and generate <strong>${fmtMoney(annualRevenueExtra)}</strong> from additional underwriting capacity. Total value: <strong>${fmtMoney(totalAnnualValue)}/year</strong> at ${fmtMoney(bc_annual)} cost — <strong>${roiX.toFixed(1)}× ROI</strong>, break-even in ${breakEven} months.`;
+// ── NAV ───────────────────────────────────────────────────────────────────
+function showTab(id, el){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  el.classList.add('active');
+  if(id==='analytics'||id==='companies') renderCharts();
+  if(id==='pipeline'||id==='tab-pipeline') renderPL2();
+  if(id==='roi') calcROI();
 }
 
-// Company Intel Data
-let allIntel=[], filteredIntel=[], pipelineContacts=[], intelPage=1; const PAGE_SIZE=12;
-let sectors=['banking','fintech','saas'], states=['Maharashtra','Karnataka'];
-let titles=['VP of Lending','Head of Credit','Underwriting Manager','Chief Risk Officer'];
-let fnames=['Amit','Priya','Rahul','Neha','Vikram','Anjali'], lnames=['Sharma','Verma','Gupta','Patel'];
-for(let i=1;i<=380;i++){ let sector=sectors[Math.floor(Math.random()*sectors.length)]; let state=states[Math.floor(Math.random()*states.length)]; let employees=[Math.floor(Math.random()*500)+50, Math.floor(Math.random()*1500)+501][Math.floor(Math.random()*2)]; let fn=fnames[Math.floor(Math.random()*fnames.length)]; let ln=lnames[Math.floor(Math.random()*lnames.length)]; let companyName=`${['Bharat','India','Global','Prime'][Math.floor(Math.random()*4)]} ${['Capital','Lending','Finance','Credit'][Math.floor(Math.random()*4)]}`; let contact={id:`c${i}`,name:`${fn} ${ln}`,title:titles[Math.floor(Math.random()*titles.length)],email:`${fn.toLowerCase()}.${ln.toLowerCase()}@${companyName.toLowerCase().replace(/[^a-z]/g,'')}.com`,phone:`+91-${Math.floor(9000000000+Math.random()*999999999)}`,companyName:companyName}; allIntel.push({id:i,name:companyName,sector,state,employees,contacts:[contact]}); }
-filteredIntel=[...allIntel];
-function applyIntelFilters(){ let data=[...allIntel]; let sec=document.getElementById('sectorIntel').value; if(sec!=='all') data=data.filter(c=>c.sector===sec); let sz=document.getElementById('sizeIntel').value; if(sz==='startup') data=data.filter(c=>c.employees<=500); else if(sz==='smb') data=data.filter(c=>c.employees>500); let st=document.getElementById('stateIntel').value; if(st!=='all') data=data.filter(c=>c.state===st); let q=document.getElementById('searchIntel').value.toLowerCase(); if(q) data=data.filter(c=>c.name.toLowerCase().includes(q)); filteredIntel=data; intelPage=1; renderIntelGrid(); }
-function renderIntelGrid(){ let start=(intelPage-1)*PAGE_SIZE, end=Math.min(start+PAGE_SIZE,filteredIntel.length); let slice=filteredIntel.slice(start,end); let grid=document.getElementById('intelCompanyGrid'); if(!slice.length){grid.innerHTML='<div class="empty">No companies</div>';return;}
-grid.innerHTML=slice.map(c=>{ let isDemo=intelPage>1; let ct=c.contacts[0]; return `<div class="co-card" style="position:relative">${isDemo?`<div class="demo-overlay" onclick="toast('Demo version: Full contacts available after upgrade','🔒')"><div style="text-align:center;padding:1rem;"><div>🔒</div><h4>Demo Preview</h4><p>Full verified contacts on Page 1</p></div></div>`:''}<div class="co-header"><div class="co-name">${c.name}<span style="float:right;font-size:0.6rem;background:var(--bg3);padding:2px 6px;border-radius:12px;">${c.sector}</span></div><div class="co-meta">${c.employees.toLocaleString()} employees · ${c.state}</div></div><div class="co-body"><div class="contact-block"><div class="contact-name">${ct.name}</div><div class="contact-title">${ct.title}</div>${!isDemo?`<div style="font-size:0.65rem;">✉ ${ct.email}</div><div style="font-size:0.65rem;">📱 ${ct.phone}</div><button class="add-btn" onclick="addPipeline('${ct.id}','${ct.name.replace(/'/g,"\\'")}','${ct.title.replace(/'/g,"\\'")}','${ct.email}','${c.name.replace(/'/g,"\\'")}')">＋ Add to Pipeline</button>`:`<div style="font-size:0.65rem;filter:blur(4px);">✉ email@company.com</div><button class="add-btn" style="opacity:0.5;" onclick="toast('Upgrade to view full contacts','🔒')">🔒 Locked</button>`}</div></div></div>`; }).join('');
-document.getElementById('intelPageInfo').innerHTML=`Showing ${start+1}–${end} of ${filteredIntel.length} companies | ${intelPage===1?'✅ Full contact details visible':'🔒 Demo preview (upgrade for full access)'}`;
-let total=Math.ceil(filteredIntel.length/PAGE_SIZE); let btns=''; for(let i=1;i<=Math.min(total,4);i++) btns+=`<button class="page-btn ${i===intelPage?'active':''}" onclick="goIntelPage(${i})">${i}</button>`; document.getElementById('intelPageBtns').innerHTML=btns; }
-function goIntelPage(p){ if(p>1){ toast('Demo version: Page 2+ requires upgrade. Contact sales for full access','🔒'); return; } intelPage=p; renderIntelGrid(); }
-function addPipeline(id,name,title,email,company){ if(pipelineContacts.some(c=>c.id===id)){toast('Already in pipeline','⚠');return;} pipelineContacts.push({id,name,title,email,companyName:company,stage:'Lead',addedDate:new Date().toISOString().slice(0,10)}); localStorage.setItem('pipeline',JSON.stringify(pipelineContacts)); renderPipeline(); toast(`${name} added to pipeline`,'✓'); }
-function renderPipeline(){ let el=document.getElementById('pipelineContainer'); if(!pipelineContacts.length){el.innerHTML='<div class="empty">No pipeline contacts. Add from Company Intel (Page 1).</div>';return;} el.innerHTML=`<table class="pipeline-table"><thead><tr><th>Contact</th><th>Company</th><th>Title</th><th>Email</th><th>Stage</th><th>Added</th><th></th></tr></thead><tbody>${pipelineContacts.map(p=>`<tr><td><strong>${p.name}</strong></td><td>${p.companyName}</td><td>${p.title}</td><td style="font-size:0.68rem;">${p.email}</td><td><select class="stage-select" onchange="updateStage('${p.id}',this.value)">${['Lead','Contacted','Demo','Proposal','Negotiation','Closed Won'].map(s=>`<option ${p.stage===s?'selected':''}>${s}</option>`).join('')}</select></td><td>${p.addedDate}</td><td><button class="remove-btn" onclick="removePipeline('${p.id}')">Remove</button></td></tr>`).join('')}</tbody></table>`; }
-function updateStage(id,stage){ let c=pipelineContacts.find(c=>c.id===id); if(c){c.stage=stage;localStorage.setItem('pipeline',JSON.stringify(pipelineContacts));renderPipeline();} }
-function removePipeline(id){ pipelineContacts=pipelineContacts.filter(c=>c.id!==id); localStorage.setItem('pipeline',JSON.stringify(pipelineContacts)); renderPipeline(); toast('Removed','✓'); }
-function exportPipelineCSV(){ if(!pipelineContacts.length){toast('Pipeline empty','⚠');return;} let csv=['Name,Company,Title,Email,Stage,Added',...pipelineContacts.map(p=>`"${p.name}","${p.companyName}","${p.title}","${p.email}","${p.stage}","${p.addedDate}"`)].join('\n'); let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'})); a.download='pipeline.csv'; a.click(); toast('Exported CSV','✓'); }
-function toast(msg,icon='✓'){ let t=document.getElementById('toast'); t.innerHTML=`<span>${icon}</span> ${msg}`; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2500); }
-let saved=localStorage.getItem('pipeline'); if(saved) pipelineContacts=JSON.parse(saved);
-renderPipeline(); renderIndustryBars(); calcROIRealTime(); renderIntelGrid();
-window.applyIntelFilters=applyIntelFilters; window.goIntelPage=goIntelPage; window.addPipeline=addPipeline; window.updateStage=updateStage; window.removePipeline=removePipeline; window.exportPipelineCSV=exportPipelineCSV; window.calcROIRealTime=calcROIRealTime;
+// ── BATTLECARD & ICP TOGGLES ─────────────────────────────────────────────
+function toggleBC(h){
+  const b=h.nextElementSibling; b.classList.toggle('open');
+  h.querySelector('.bc-arrow').textContent=b.classList.contains('open')?'▲':'▼';
+}
+function toggleICP(el){
+  const s=el.querySelector('.icp-signals');
+  s.style.display=s.style.display==='block'?'none':'block';
+}
+
+// ── PITCH BUILDER ─────────────────────────────────────────────────────────
+const PH={
+  mca:"Most MCA funders tell us the same thing: bank statement review is their biggest bottleneck — and it's where first-party fraud slips through.",
+  bank:"Community banks are being asked to move at fintech speed without fintech engineering teams. Bank statement underwriting is where that pressure is most acute.",
+  mortgage:"Altered pay stubs and manipulated bank statements are the #1 fraud vector in mortgage origination. Traditional OCR tools can't catch sophisticated alterations.",
+  processor:"Your embedded lending product needs real-time credit decisions — but without reliable cash flow data on the merchant, you're underwriting blind.",
+  india:"India's NBFC sector processes millions of bank statements for SMB loans every month. Most of it is still manual, and fraud is growing."
+};
+const PP={manual:"Your team is spending hours per application reviewing statements manually — it's not scalable, inconsistent across underwriters, and is the primary reason turnaround is measured in days rather than hours.",fraud:"Document fraud is costing lenders an estimated 1–3% of their portfolio annually. Traditional OCR tools detect data — they don't detect tampering. AI-generated statements with realistic formatting pass most checks entirely.",cost:"The fully-loaded cost of manual underwriting — analyst time, quality review, exceptions handling — is far higher than most lenders realise when accounting for opportunity cost of delayed decisions.",scale:"Volume is growing but headcount isn't. Hiring more underwriters to solve a data processing problem is the wrong solution for a business that should be automating its back office.",intl:"Most document intelligence vendors are US-only. If your portfolio includes international borrowers, non-English bank formats, or emerging market clients, your current tooling simply doesn't work for a significant portion of your book."};
+const PS={blusense:"bluSense converts any bank statement — PDF, scan, phone photo — into structured financial intelligence in under 30 seconds. 40+ transaction categories, 50+ analytics including estimated revenue, COGS, gross margin, cash flow, overdrafts, and loan repayments. Our proprietary risk score gives underwriters a single signal to anchor decisions.",fraudlens:"FraudLens runs 16+ forensic checks on every document: recovers original altered PDFs, detects third-party editor fingerprints, flags font anomalies, and compares against a database of 10M+ genuine document templates. Every document returns with a High/Medium/Low/No fraud risk score.",both:"bluSense and FraudLens work as a single API call: submit the bank statement, receive both the cash flow analytics and the fraud risk score simultaneously. One integration, two capabilities — faster decisions with lower risk, without two separate vendor relationships.",managed:"Our Managed Services team handles the entire underwriting workflow: statement spreading, fraud review, KYC/KYB, and decision support. Clients consistently report 50% cost reduction versus in-house, with faster turnaround."};
+const PD={none:"The key differentiator: cash flow analytics + document forensics + global market coverage + managed services in a single relationship. And as of Feb 2025, we're the only provider combining real-time bank transaction AI with SBFE commercial bureau data — alongside Dun & Bradstreet, Equifax, and Experian.",ocrolus:"Unlike Ocrolus, we're fully automated — no human-in-the-loop delays. Ocrolus routes edge cases through human reviewers, adding unpredictable latency. We also process non-English bank formats globally, which Ocrolus doesn't support. And we now combine bank transaction AI with SBFE commercial bureau data — a view Ocrolus simply cannot offer.",inscribe:"Inscribe handles fraud flagging but has no analytics layer. You'd still need a separate vendor for cash flow and income analysis. With bluCognition, both happen in the same API call — and we add SBFE commercial credit data for the most complete borrower view available.",plaid:"Plaid requires a live bank connection — which works for consumer lending but not for SMB or international lending where applicants submit PDF statements. We work on the document itself, which is also where fraud is introduced.",internal:"Manual review is inconsistent across underwriters and doesn't scale. Our automated pipeline processes in under 30 seconds with consistent methodology — and catches document fraud that human reviewers miss because it's engineered to be invisible to the naked eye."};
+const PR={mca:"A bluSense client — a mid-market MCA funder — reported that automated underwriting for advances under $150K improved credit performance in acquisitions and eliminated a 3-person manual review team. FraudLens reduced first-party fraud in real time.",bank:"Community bank clients using our managed services report processing their underwriting decisions end-to-end at half the cost with shorter turnaround than their previous in-house process.",mortgage:"FraudLens model trained on 10M+ documents catches sophisticated alterations including flattened PDFs, overlaid text, and metadata manipulation that traditional OCR tools pass as clean — exactly the fraud types FinCEN warned about in their Nov 2024 alert.",processor:"Clients including WEX, Fiserv, Stripe, and American Express use bluCognition in their underwriting and risk workflows. SOC 2 Type II, PCI DSS, ISO 27001, and GDPR certified — we pass enterprise security reviews at Tier-1 institutions.",india:"Our platform processes bank statements from financial institutions globally including non-English formats. For emerging markets where PDF bank statements are the standard input, we're the only enterprise-grade solution with both analytics and fraud detection."};
+const PC={mca:"I'd like to set up a 30-minute technical demo where we run your actual bank statements through bluSense and FraudLens — you'll see the output live. Can we schedule this week?",bank:"The fastest path to a proof of concept is a pilot on a sample of your recent statement volume — we can typically get running in 2 weeks. Would your team have time to scope that this week?",mortgage:"I can share the FraudLens forensics report for a recent altered document case study directly relevant to mortgage origination. Would that be a useful starting point?",processor:"Given your existing fintech stack, we can likely have a sandbox integration running within a few days via our API. Would it be useful to loop in your engineering team for a 30-minute technical call?",india:"We have case studies from similar operations in emerging markets. I'd like to share those and set up a call to discuss what a pilot would look like for your volume and document types."};
+const PLABELS={mca:'MCA/SMB Lender',bank:'Community Bank',mortgage:'Mortgage Originator',processor:'Merchant Processor',india:'India/LatAm NBFC'};
+function buildPitch(){
+  const t=document.getElementById('p_type').value, pa=document.getElementById('p_pain').value, pr=document.getElementById('p_product').value, co=document.getElementById('p_comp').value;
+  document.getElementById('pitchTitle').textContent=`Pitch: ${PLABELS[t]} — ${document.getElementById('p_product').selectedOptions[0].text}`;
+  ['hook','prob','sol','diff','proof','cta'].forEach((id,i)=>{
+    document.getElementById('p_'+id).textContent=[PH[t],PP[pa],PS[pr],PD[co],PR[t],PC[t]][i]||'';
+  });
+  const out=document.getElementById('pitchOut'); out.classList.add('show');
+  out.scrollIntoView({behavior:'smooth',block:'start'});
+}
+function copyEl(id){
+  navigator.clipboard.writeText(document.getElementById(id).textContent).then(()=>{
+    const b=event.target; b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy',1500);
+  });
+}
+
+// ── ROI CALCULATOR ────────────────────────────────────────────────────────
+function fmtM(n){return n>=1e6?'$'+(n/1e6).toFixed(1)+'M':n>=1e3?'$'+Math.round(n/1e3)+'K':'$'+Math.round(n);}
+function calcROI(){
+  const vol=parseFloat(document.getElementById('ri_vol')?.value)||500;
+  const avg=parseFloat(document.getElementById('ri_avg')?.value)||50000;
+  const cost=parseFloat(document.getElementById('ri_cost')?.value)||35;
+  const fraud=parseFloat(document.getElementById('ri_fraud')?.value)||1.5;
+  const seg=document.getElementById('ri_seg')?.value||'mca';
+  const bc={mca:14400,bank:30000,mortgage:24000,processor:42000}[seg]||14400;
+  const cmo=vol*cost*0.75, cyr=cmo*12;
+  const fprev=vol*avg*12*(fraud/100)*0.62;
+  const extra=Math.round(vol*.30), revmo=extra*avg*0.015;
+  const total=cyr+fprev+(revmo*12), roi=total/bc;
+  const set=(id,v)=>{const e=document.getElementById(id);if(e)e.textContent=v;};
+  set('ro_cmo',fmtM(cmo)+'/mo'); set('ro_cyr',fmtM(cyr));
+  set('ro_fraud',fmtM(fprev)); set('ro_apps','+'+extra+' apps/mo');
+  set('ro_rev',fmtM(revmo)+'/mo'); set('ro_total',fmtM(total));
+  set('ro_cost','~'+fmtM(bc)); set('ro_roi',roi.toFixed(1)+'×');
+  const su=document.getElementById('ro_summary');
+  if(su) su.innerHTML=`At your volume, bluCognition delivers an estimated <strong>${fmtM(total)}/year</strong> in combined savings, fraud prevention & revenue — against ~${fmtM(bc)}/year cost. That's a <strong>${roi.toFixed(1)}× ROI</strong>, breaking even in under ${Math.round(bc/(total/12))} months.`;
+}
+
+// ── SALESMIND DATA ────────────────────────────────────────────────────────
+const PIPE_KEY='bc_pipe_v1', SUB_KEY='bc_sub';
+let allCos=[],filtCos=[],pipeContacts=[];
+let curSeg='all',curPage=1,curView='companies';
+const PAGE_SZ=20;
+let isSubscribed=localStorage.getItem(SUB_KEY)==='true';
+let charts={}, activeChart=false;
+try{pipeContacts=JSON.parse(localStorage.getItem(PIPE_KEY))||[];}catch(e){}
+function savePipe(){localStorage.setItem(PIPE_KEY,JSON.stringify(pipeContacts));}
+
+const SECTORS=['banking','fintech','edtech','ecommerce','saas','healthtech'];
+const STATES=['Maharashtra','Karnataka','Delhi NCR','Tamil Nadu','Telangana'];
+const CITIES={Maharashtra:['Mumbai','Pune','Nagpur'],Karnataka:['Bengaluru','Mysore'],'Delhi NCR':['Delhi','Gurugram','Noida'],'Tamil Nadu':['Chennai','Coimbatore'],Telangana:['Hyderabad']};
+const TITLES=['CHRO','VP of HR','Head of Talent','HR Director','Chief People Officer','Talent Lead'];
+const FN=['Amit','Priya','Rahul','Neha','Vikram','Anjali','Rajesh','Divya','Suresh','Meera','Karthik','Pooja'];
+const LN=['Sharma','Verma','Gupta','Patel','Kumar','Singh','Reddy','Joshi','Nair','Iyer'];
+const PFX=['Bharat','India','Global','National','United','Asian','Prime','Elite','Digital','Smart'];
+const SFX=['Technologies','Solutions','Enterprises','Industries','Ventures','Labs','Digital','Analytics','Systems','Networks'];
+const ANC=['Tata','Birla','Mahindra','Godrej','Adani','Wipro','Infosys','HCL','HDFC','ICICI','Paytm','Zomato'];
+const r=a=>a[Math.floor(Math.random()*a.length)];
+const ri=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
+
+function mkCo(i){
+  const name=Math.random()<.35?`${r(ANC)} ${r(SFX)}`:`${r(PFX)} ${r(SFX)}`;
+  const state=r(STATES), sector=r(SECTORS);
+  const emp=[ri(50,500),ri(501,2000),ri(2001,25000)][ri(0,2)];
+  const contacts=Array.from({length:ri(2,4)},(_,j)=>{
+    const fn=r(FN),ln=r(LN);
+    const dom=name.toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,12);
+    return {id:`c${i}_${j}`,name:`${fn} ${ln}`,title:r(TITLES),email:`${fn.toLowerCase()}.${ln.toLowerCase()}@${dom}.in`,phone:`+91-${ri(70,99)}${ri(1000,9999)}-${ri(10000,99999)}`,linkedin:`linkedin.com/in/${fn.toLowerCase()}-${ln.toLowerCase()}-${ri(100,999)}`,companyName:name};
+  });
+  return {id:`co${i}`,name,sector,state,city:r(CITIES[state]),employees:emp,founded:ri(2000,2022),funding:ri(5,5000),growth:ri(5,85),contacts};
+}
+function genAll(n){return Array.from({length:n},(_,i)=>mkCo(i));}
+
+function applyFilters(){
+  let d=[...allCos];
+  if(curSeg==='startup') d=d.filter(c=>c.employees<=500);
+  else if(curSeg==='smb') d=d.filter(c=>c.employees>500&&c.employees<=2000);
+  else if(curSeg==='enterprise') d=d.filter(c=>c.employees>2000);
+  const sec=document.getElementById('secFilter').value;
+  if(sec!=='all') d=d.filter(c=>c.sector===sec);
+  const sz=document.getElementById('szFilter').value;
+  if(sz==='startup') d=d.filter(c=>c.employees<=500);
+  else if(sz==='smb') d=d.filter(c=>c.employees>500&&c.employees<=2000);
+  else if(sz==='enterprise') d=d.filter(c=>c.employees>2000);
+  const st=document.getElementById('stFilter').value;
+  if(st!=='all') d=d.filter(c=>c.state===st);
+  const q=document.getElementById('srchInput').value.toLowerCase();
+  if(q) d=d.filter(c=>c.name.toLowerCase().includes(q));
+  filtCos=d; curPage=1;
+  renderMetrics(); renderPage(); renderPgBtns();
+}
+
+function renderMetrics(){
+  const t=filtCos.length;
+  document.getElementById('smMetrics').innerHTML=`
+    <div class="sm-met"><div class="sm-met-val">${t.toLocaleString()}</div><div class="sm-met-lbl">Companies</div></div>
+    <div class="sm-met"><div class="sm-met-val">${filtCos.reduce((s,c)=>s+c.contacts.length,0).toLocaleString()}</div><div class="sm-met-lbl">Contacts</div></div>
+    <div class="sm-met"><div class="sm-met-val">${filtCos.filter(c=>c.sector==='banking').length.toLocaleString()}</div><div class="sm-met-lbl">Banking</div></div>
+    <div class="sm-met"><div class="sm-met-val">${filtCos.filter(c=>c.sector==='fintech').length.toLocaleString()}</div><div class="sm-met-lbl">FinTech</div></div>
+    <div class="sm-met"><div class="sm-met-val">${pipeContacts.length}</div><div class="sm-met-lbl">In Pipeline</div></div>`;
+}
+
+function renderPage(){
+  const s=(curPage-1)*PAGE_SZ, e=Math.min(s+PAGE_SZ,filtCos.length);
+  document.getElementById('pgInfo').textContent=`Showing ${s+1}–${e} of ${filtCos.length.toLocaleString()} companies`;
+  const canSee=curPage===1||isSubscribed;
+  const grid=document.getElementById('coGrid');
+  const slice=filtCos.slice(s,e);
+  if(!slice.length){grid.innerHTML='<div class="empty">No companies match the current filters.</div>';return;}
+  grid.innerHTML=slice.map(c=>{
+    const ctHtml=c.contacts.slice(0,2).map(ct=>`<div class="ct-block"><div class="ct-name">${ct.name}</div><div class="ct-title">${ct.title}</div>${canSee?`<div class="ct-det">✉ ${ct.email}</div><div class="ct-det">📱 ${ct.phone}</div><button class="add-btn open" onclick="addPipe(${JSON.stringify(ct).replace(/"/g,'&quot;')})">＋ Add to Pipeline</button>`:`<div class="ct-det">✉ <span class="blurred">name@company.in</span></div><button class="add-btn locked" onclick="openModal()">🔒 Unlock</button>`}</div>`).join('');
+    return `<div class="co-card">${!canSee?`<div class="prem-overlay" onclick="openModal()"><div class="prem-msg"><div class="pm-icon">🔒</div><h4>Premium</h4><p>Subscribe to view contacts</p><button class="unlock-btn" onclick="event.stopPropagation();openModal()">Unlock →</button></div></div>`:''}<div class="co-hdr"><span class="co-chip chip-${c.sector}">${c.sector.toUpperCase()}</span><div class="co-name">${c.name}</div><div class="co-meta">${c.employees.toLocaleString()} emp · ${c.city} · Est.${c.founded}</div></div><div class="co-body"><div class="co-info"><span class="co-info-lbl">Funding</span><span class="co-info-val">₹${c.funding.toLocaleString()}Cr</span></div><div class="co-info"><span class="co-info-lbl">YoY Growth</span><span class="co-info-val">${c.growth}%</span></div>${ctHtml}${c.contacts.length>2?`<div style="font-size:.6rem;color:var(--text3);text-align:center;margin-top:.4rem">+${c.contacts.length-2} more</div>`:''}</div></div>`;
+  }).join('');
+}
+
+function renderPgBtns(){
+  const total=Math.ceil(filtCos.length/PAGE_SZ);
+  ['pgBtns','pgBtnsBot'].forEach(id=>{
+    const el=document.getElementById(id); if(!el) return;
+    const s=Math.max(1,curPage-2),e=Math.min(total,curPage+2);
+    let h=`<button class="pg-btn" onclick="goTo(${curPage-1})" ${curPage===1?'disabled':''}>‹</button>`;
+    if(s>1) h+=`<button class="pg-btn" onclick="goTo(1)">1</button>`;
+    for(let i=s;i<=e;i++) h+=`<button class="pg-btn${i===curPage?' active':''}" onclick="goTo(${i})">${i}</button>`;
+    if(e<total) h+=`<button class="pg-btn" onclick="goTo(${total})">${total}</button>`;
+    h+=`<button class="pg-btn" onclick="goTo(${curPage+1})" ${curPage===total?'disabled':''}>›</button>`;
+    el.innerHTML=h;
+  });
+}
+function goTo(p){
+  const total=Math.ceil(filtCos.length/PAGE_SZ);
+  if(p<1||p>total) return;
+  if(p>1&&!isSubscribed){openModal();return;}
+  curPage=p; renderPage(); renderPgBtns();
+  document.getElementById('coGrid')?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+// PIPELINE
+const STAGES=['Lead','Contacted','Demo','Proposal','Negotiation','Closed Won'];
+function addPipe(ct){
+  if(pipeContacts.some(c=>c.id===ct.id)){toast(`${ct.name} already in pipeline`,'⚠');return;}
+  pipeContacts.push({...ct,stage:'Lead',addedDate:new Date().toISOString().split('T')[0]});
+  savePipe(); renderMetrics(); renderPL(); renderPL2(); toast(`${ct.name} added`,'✓');
+}
+function rmPipe(id){pipeContacts=pipeContacts.filter(c=>c.id!==id);savePipe();renderMetrics();renderPL();renderPL2();toast('Removed','✓');}
+function upStage(id,s){const c=pipeContacts.find(c=>c.id===id);if(c){c.stage=s;savePipe();}}
+function plTable(cid){
+  const el=document.getElementById(cid);
+  if(!pipeContacts.length){el.innerHTML='<div class="empty">No contacts yet. Add from SalesMind Pro — page 1 is free.</div>';return;}
+  el.innerHTML=`<table class="pl-table"><thead><tr><th>Contact</th><th>Company</th><th>Title</th><th>Email</th><th>Stage</th><th>Added</th><th></th></tr></thead><tbody>${pipeContacts.map(p=>`<tr><td><strong>${p.name}</strong></td><td>${p.companyName}</td><td style="color:var(--text3)">${p.title}</td><td style="font-family:'DM Mono',monospace;font-size:.67rem">${p.email}</td><td><select class="stg-sel" onchange="upStage('${p.id}',this.value)">${STAGES.map(s=>`<option value="${s}"${p.stage===s?' selected':''}>${s}</option>`).join('')}</select></td><td style="color:var(--text3)">${p.addedDate}</td><td><button class="rm-btn" onclick="rmPipe('${p.id}')">Remove</button></td></tr>`).join('')}</tbody></table>`;
+}
+function renderPL(){plTable('plContainer');}
+function renderPL2(){plTable('plContainer2');}
+
+function exportCSV(){
+  if(!pipeContacts.length){toast('Pipeline is empty','⚠');return;}
+  const hdr=['Name','Company','Title','Email','Phone','LinkedIn','Stage','Added'];
+  const rows=pipeContacts.map(c=>[c.name,c.companyName,c.title,c.email,c.phone||'',c.linkedin||'',c.stage,c.addedDate]);
+  const csv=[hdr,...rows].map(r=>r.map(v=>`"${v}"`).join(',')).join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download='blucognition_pipeline.csv';a.click();
+  toast('CSV exported','✓');
+}
+
+// CHARTS
+const CCOLS=['#3b82f6','#06b6d4','#8b5cf6','#f59e0b','#ef4444','#10b981'];
+function renderCharts(){
+  activeChart=true;
+  const isDark=document.documentElement.getAttribute('data-theme')==='dark';
+  const leg=isDark?'#94a3b8':'#475569';
+  const grid=isDark?'rgba(255,255,255,0.04)':'rgba(0,0,0,0.04)';
+  const tick=isDark?'#64748b':'#64748b';
+  [['cSec','cSec2'],['cSz','cSz2'],['cPipe','cPipe2']].forEach(([id1,id2])=>{
+    [id1,id2].forEach(id=>{if(charts[id]){charts[id].destroy();delete charts[id];}});
+  });
+  const secData=SECTORS.map(s=>filtCos.filter(c=>c.sector===s).length);
+  const szData=[filtCos.filter(c=>c.employees<=500).length,filtCos.filter(c=>c.employees>500&&c.employees<=2000).length,filtCos.filter(c=>c.employees>2000).length];
+  const pipeData=STAGES.map(s=>pipeContacts.filter(c=>c.stage===s).length);
+  setTimeout(()=>{
+    ['cSec','cSec2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;charts[id]=new Chart(el,{type:'doughnut',data:{labels:['Banking','FinTech','EdTech','E-com','SaaS','HealthTech'],datasets:[{data:secData,backgroundColor:CCOLS,borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:leg,font:{size:11}}}}}});});
+    ['cSz','cSz2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;charts[id]=new Chart(el,{type:'bar',data:{labels:['Startup','SMB','Enterprise'],datasets:[{data:szData,backgroundColor:'#3b82f6',borderRadius:5,borderWidth:0}]},options:{plugins:{legend:{display:false}},scales:{x:{ticks:{color:tick}},y:{ticks:{color:tick},grid:{color:grid}}}}});});
+    ['cPipe','cPipe2'].forEach(id=>{const el=document.getElementById(id);if(!el)return;charts[id]=new Chart(el,{type:'doughnut',data:{labels:STAGES,datasets:[{data:pipeData,backgroundColor:['#64748b','#3b82f6','#8b5cf6','#f59e0b','#06b6d4','#10b981'],borderWidth:0}]},options:{plugins:{legend:{position:'bottom',labels:{color:leg,font:{size:11}}}}}});});
+  },80);
+}
+
+// SCRAPE
+async function runScrape(){
+  const btn=document.getElementById('scrapeBtn');btn.disabled=true;
+  document.getElementById('scrapeIco').textContent='⏳';
+  document.getElementById('scrapeLbl').textContent='Scraping…';
+  const fill=document.getElementById('progFill'),status=document.getElementById('scrapeStatus');
+  const srcs=['Startup India','MSME Register','MCA21','LinkedIn','Crunchbase','IBEF','DPIIT','SEBI','RBI','NSE','BSE','Inc42','YourStory','Economic Times','Business Standard'];
+  for(let i=0;i<=srcs.length;i++){
+    fill.style.width=`${Math.round(i/srcs.length*100)}%`;
+    if(i<srcs.length) status.textContent=`⟳ Scraping ${srcs[i]}…`;
+    await new Promise(r=>setTimeout(r,60));
+  }
+  allCos=genAll(5100);applyFilters();
+  status.textContent=`✓ ${allCos.length.toLocaleString()} companies enriched`;
+  fill.style.width='0%';btn.disabled=false;
+  document.getElementById('scrapeIco').textContent='⚡';
+  document.getElementById('scrapeLbl').textContent='Re-scrape Data';
+  toast(`Loaded ${allCos.length.toLocaleString()} companies`,'✓');
+}
+
+function switchSeg(seg,el){
+  curSeg=seg;
+  document.querySelectorAll('.seg-tab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');applyFilters();
+}
+
+function switchView(view,el){
+  document.querySelectorAll('.sm-vtab').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  ['companies','pl','charts'].forEach(v=>document.getElementById('vw-'+v).style.display=v===view?'block':'none');
+  if(view==='charts') renderCharts();
+  if(view==='pl') renderPL();
+}
+
+// MODAL
+function openModal(){document.getElementById('modal').classList.add('open');}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function clearErr(){document.getElementById('mErr').style.display='none';document.getElementById('mEmail').classList.remove('err');}
+function subscribe(){
+  const em=document.getElementById('mEmail').value.trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)){document.getElementById('mErr').style.display='block';document.getElementById('mEmail').classList.add('err');return;}
+  isSubscribed=true;localStorage.setItem(SUB_KEY,'true');
+  document.getElementById('accessBadge').textContent='PRO ACCESS';
+  document.getElementById('accessBadge').className='badge badge-pro';
+  closeModal();renderPage();renderPgBtns();toast(`Full access granted for ${em}`,'🎉');
+}
+
+// TOAST
+let toastT;
+function toast(msg,icon='✓'){
+  const t=document.getElementById('toast');
+  t.innerHTML=`<span style="color:var(--green)">${icon}</span> ${msg}`;
+  t.classList.add('show');clearTimeout(toastT);
+  toastT=setTimeout(()=>t.classList.remove('show'),3000);
+}
+
+// INIT
+if(isSubscribed){document.getElementById('accessBadge').textContent='PRO ACCESS';document.getElementById('accessBadge').className='badge badge-pro';}
+document.getElementById('themeBtn').textContent=(localStorage.getItem('bc_theme')||'dark')==='dark'?'🌙':'☀️';
+allCos=genAll(5100);applyFilters();renderPL();renderPL2();calcROI();
 </script>
 </body>
 </html>
